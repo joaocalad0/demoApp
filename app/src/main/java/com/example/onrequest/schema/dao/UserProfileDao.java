@@ -1,11 +1,13 @@
 package com.example.onrequest.schema.dao;
 
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.onrequest.schema.entity.UserProfile;
 
+@Dao
 public interface UserProfileDao {
     @Insert
     void insert (UserProfile userProfile);
