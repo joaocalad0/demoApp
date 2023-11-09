@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.onrequest.schema.dao.UserProfileDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.UserProfile;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class UserProfileMain extends AppCompatActivity {
 
@@ -44,7 +45,23 @@ public class UserProfileMain extends AppCompatActivity {
         });
 
 
+
+
+        //Bottom Navigation bar
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.bottom_home) {
+                startActivity(new Intent(getApplicationContext(), TablesActivity.class));
+                finish();
+                return true;
+            }
+            return false;
+        });
     }
+
+
+
+
 
     public void openEditProfile(){
         Intent intent = new Intent(this, EditUserProfile.class);
