@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,6 +55,13 @@ public class TablesActivity extends AppCompatActivity {
 
         AppDatabase db = AppDatabase.getInstance(this);
         UserProfileDao userProfileDao = db.getUserProfileDao();
+
+        String userName = getIntent().getStringExtra("user_name");
+        TextView textViewUserName = findViewById(R.id.textViewUserName);
+
+        if (userName != null){
+            textViewUserName.setText(userName);
+        }
 
 
     }
