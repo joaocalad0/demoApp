@@ -19,6 +19,7 @@ import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
+import com.example.onrequest.schema.entity.item.MenuItemCategory;
 import com.example.onrequest.schema.entity.table.MenuTable;
 
 import java.util.List;
@@ -52,12 +53,14 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         MenuItemDao menuItemDao = appDatabase.getMenuItemDao();
+        List<MenuItem> itemForTable = menuItemDao.getByTableId(menuTable.getMenuTableId());
+        //List<MenuItem> itemsForTableAndCategory = menuItemDao.getByCategory(FOOD, DRINK, menuTable.getMenuTableId());
         List<MenuItem> all = menuItemDao.getAll();
         List<MenuItem> food = menuItemDao.getByCategory(FOOD);
         List<MenuItem> drink = menuItemDao.getByCategory(DRINK);
 
         // criar um objeto do tipo MenuAdapter (que extende Adapter)
-        MenuAdapter adapter = new MenuAdapter(menuTable, all);
+        MenuAdapter adapter = new MenuAdapter(menuTable, itemForTable);
 
         // criar um objecto do tipo LinearLayoutManager para ser utilizado na RecyclerView
         // o LinearLayoutManager tem como orientação default a orientação Vertical

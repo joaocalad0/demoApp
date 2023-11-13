@@ -14,6 +14,9 @@ import java.util.List;
 @Dao
 public interface MenuItemDao {
 
+    @Query("SELECT * FROM menuitem WHERE menuTableId = :tableId")
+    List<MenuItem> getByTableId(long tableId);
+
     @Query("SELECT * FROM menuitem")
     List<MenuItem> getAll();
 
