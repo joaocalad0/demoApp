@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,9 +27,9 @@ public class TablesActivity extends AppCompatActivity {
 
         setContentView(R.layout.tables_activity);
 
-        Button table1 = findViewById(R.id.table1);
-        Button table2 = findViewById(R.id.table2);
-        Button table3 = findViewById(R.id.table3);
+        ImageView table1 = findViewById(R.id.table1);
+        ImageView table2 = findViewById(R.id.table2);
+        ImageView table3 = findViewById(R.id.table3);
         Button table4 = findViewById(R.id.table4);
         Button table5 = findViewById(R.id.table5);
         Button table6 = findViewById(R.id.table6);
@@ -51,17 +52,6 @@ public class TablesActivity extends AppCompatActivity {
             }
             return false;
         });
-
-
-        AppDatabase db = AppDatabase.getInstance(this);
-        UserProfileDao userProfileDao = db.getUserProfileDao();
-
-        String userName = getIntent().getStringExtra("user_name");
-        TextView textViewUserName = findViewById(R.id.textViewUserName);
-
-        if (userName != null){
-            textViewUserName.setText(userName);
-        }
 
 
     }

@@ -97,9 +97,9 @@ public class EditUserProfile extends AppCompatActivity {
             userProfileDao.insert(userProfile);
         }
 
-        Intent intent = new Intent(this, TablesActivity.class);
-        intent.putExtra("user_name", name);
-        startActivity(intent);
+        //Intent intent = new Intent(this, TablesActivity.class);
+        //intent.putExtra("user_name", name);
+        //startActivity(intent);
 
 
         finish();

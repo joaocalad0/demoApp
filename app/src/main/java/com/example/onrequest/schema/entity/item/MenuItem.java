@@ -37,17 +37,22 @@ public class MenuItem implements Parcelable {
     @ColumnInfo(name = "menuItemDesc")
     private String menuItemDesc;
 
+    @Nullable
+    @ColumnInfo(name = "restaurantId")
+    private long restaurantId;
+
     public MenuItem() {
     }
 
     public MenuItem(long menuItemId, @Nullable String menuItemName, double menuItemPrice,
-                    @Nullable Uri menuItemAvatar, @Nullable MenuItemCategory menuItemCategory, @Nullable String menuItemDesc) {
+                    @Nullable Uri menuItemAvatar, @Nullable MenuItemCategory menuItemCategory, @Nullable String menuItemDesc, long restaurantId) {
         this.menuItemId = menuItemId;
         this.menuItemName = menuItemName;
         this.menuItemPrice = menuItemPrice;
         this.menuItemAvatar = menuItemAvatar;
         this.menuItemCategory = menuItemCategory;
         this.menuItemDesc = menuItemDesc;
+        this.restaurantId = restaurantId;
     }
 
     public long getMenuItemId() {
@@ -64,6 +69,14 @@ public class MenuItem implements Parcelable {
 
     public void setMenuItemName(String menuItemName) {
         this.menuItemName = menuItemName;
+    }
+
+    public long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public Double getMenuItemPrice() {
