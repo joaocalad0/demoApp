@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.onrequest.manager.CartManager;
 import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.db.AppDatabase;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         this.menuTable = bundle.getParcelable("table");
+
+        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
+        Glide.with(this).load(menuTable.getLogoUrl()).into(imageViewLogo);
 
         // obter uma referência para a RecyclerView que existe no layout da MainActivity4
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

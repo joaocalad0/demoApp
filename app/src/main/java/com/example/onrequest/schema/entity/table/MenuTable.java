@@ -15,14 +15,16 @@ public class MenuTable implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private long menuTableId;
-
-    public MenuTable(long menuTableId) {
+    private String logoUrl;
+    public MenuTable(long menuTableId, String logoUrl) {
         this.menuTableId = menuTableId;
+        this.logoUrl = logoUrl;
     }
 
     @Ignore
     protected MenuTable(Parcel in) {
         menuTableId = in.readLong();
+        logoUrl = in.readString();
     }
 
     public static final Creator<MenuTable> CREATOR = new Creator<MenuTable>() {
@@ -47,6 +49,14 @@ public class MenuTable implements Parcelable {
         this.menuTableId = menuTableId;
     }
 
+    public String getLogoUrl(){
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl){
+        this.logoUrl =logoUrl;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -55,6 +65,7 @@ public class MenuTable implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeLong(this.menuTableId);
+        parcel.writeString(this.logoUrl);
     }
 
     @Override

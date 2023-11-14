@@ -63,6 +63,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     "menuItemCategory TEXT," +
                                     "menuItemDesc TEXT," +
                                     "menuTableId INTEGER," +
+                                    "logoUrl TEXT," +
                                     "FOREIGN KEY (menuTableId) REFERENCES menuTable(menuTableId) ON DELETE CASCADE)");
 
                             db.execSQL("INSERT INTO menuitem VALUES(1, 'Coca cola', 10.2,'https://mariapaparica.pt/wp-content/uploads/2016/09/coca-cola-classic.jpg', 'DRINK', 'Our Coca-Cola is served ice-cold, providing a satisfying fizz as you pop open the bottle or take a sip from a glass filled with ice. The moment you take your first sip, you ll experience the unmistakable taste that has made Coca-Cola a beloved classic.', 1)");
@@ -72,8 +73,8 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO menuitem VALUES(5, 'Taco Chilli', 6.8, 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/7f17c36b-38db-4d74-8ed4-d3983957a293/Derivates/ab88505f-8375-4990-82fa-864f6bda6ce1.jpg', 'FOOD', 'a tantalizing fusion of savory and spicy flavors! This delectable creation features seasoned ground beef, smoky chili sauce, crisp lettuce, diced tomatoes, and shredded cheddar cheese, all nestled within a warm, soft taco shell.',3)");
                             db.execSQL("INSERT INTO menuitem VALUES(6, 'sparkling water', 1.2, 'https://prd360hyper-17e49.kxcdn.com/images/thumbs/6879060_agua-com-gas-pedras-salgadas-24x25cl_550.png', 'DRINK', 'Quench your thirst with our Sparkling Elegance, a crisp and effervescent refreshment that will tantalize your taste buds. Our sparkling water is meticulously crafted to provide the perfect balance of fizzy bubbles and pure hydration. ',1)");
                             //----------------Table IDs---------------------------------------------//
-                            db.execSQL("INSERT INTO menuTable (menuTableId) VALUES (1)");
-                            db.execSQL("INSERT INTO menuTable (menuTableId) VALUES (2)");
+                            db.execSQL("INSERT INTO menuTable (menuTableId, logoUrl) VALUES (1,'https://brandslogos.com/wp-content/uploads/images/large/burger-king-logo.png')");
+                            db.execSQL("INSERT INTO menuTable (menuTableId, logoUrl) VALUES (2, 'https://upload.wikimedia.org/wikipedia/commons/3/32/McDonald%27s_1968_logo.png')");
                             db.execSQL("INSERT INTO menuTable (menuTableId) VALUES (3)");
                             db.execSQL("INSERT INTO menuTable (menuTableId) VALUES (4)");
                             db.execSQL("INSERT INTO menuTable (menuTableId) VALUES (5)");
