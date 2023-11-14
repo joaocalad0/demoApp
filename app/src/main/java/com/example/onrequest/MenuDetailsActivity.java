@@ -40,6 +40,10 @@ public class MenuDetailsActivity extends AppCompatActivity {
             ImageView imageViewAvatar = findViewById(R.id.imageView7);
             TextView textViewDrink = findViewById(R.id.textView2);
             TextView descTextView = findViewById(R.id.descTextView);
+            TextView price = findViewById(R.id.ItemPrice);
+            double menuItemPrice = menuItem.getMenuItemPrice();
+            String priceString = String.valueOf(menuItemPrice);
+            price.setText(priceString);
             descTextView.setText(menuItem.getMenuItemDesc());
             textViewDrink.setText(menuItem.getMenuItemName());
             Glide.with(this).load(menuItem.getMenuItemAvatar()).into(imageViewAvatar);
