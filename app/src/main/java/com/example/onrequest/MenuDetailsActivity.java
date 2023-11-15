@@ -40,10 +40,14 @@ public class MenuDetailsActivity extends AppCompatActivity {
             ImageView imageViewAvatar = findViewById(R.id.imageView7);
             TextView textViewDrink = findViewById(R.id.textView2);
             TextView descTextView = findViewById(R.id.descTextView);
+
+            //TextView do Preço formatada(double) com duas casa decimais %.2f
             TextView price = findViewById(R.id.ItemPrice);
             double menuItemPrice = menuItem.getMenuItemPrice();
-            String priceString = String.valueOf(menuItemPrice);
-            price.setText(priceString);
+            //String priceString = String.valueOf(menuItemPrice);
+            String Currency = String.format("$%.2f", menuItemPrice);
+            price.setText(Currency);
+
             descTextView.setText(menuItem.getMenuItemDesc());
             textViewDrink.setText(menuItem.getMenuItemName());
             Glide.with(this).load(menuItem.getMenuItemAvatar()).into(imageViewAvatar);
