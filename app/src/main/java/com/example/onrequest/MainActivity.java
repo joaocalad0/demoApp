@@ -8,17 +8,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.onrequest.manager.CartManager;
 import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
+import com.example.onrequest.schema.entity.item.MenuItemCategory;
 import com.example.onrequest.schema.entity.table.MenuTable;
 
 import java.util.List;
@@ -48,16 +51,21 @@ public class MainActivity extends AppCompatActivity {
 
         this.menuTable = bundle.getParcelable("table");
 
+        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
+        Glide.with(this).load(menuTable.getLogoUrl()).into(imageViewLogo);
+
         // obter uma referência para a RecyclerView que existe no layout da MainActivity4
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         MenuItemDao menuItemDao = appDatabase.getMenuItemDao();
+        List<MenuItem> itemForTable = menuItemDao.getByTableId(menuTable.getMenuTableId());
+        //List<MenuItem> itemsForTableAndCategory = menuItemDao.getByCategory(FOOD, DRINK, menuTable.getMenuTableId());
         List<MenuItem> all = menuItemDao.getAll();
         List<MenuItem> food = menuItemDao.getByCategory(FOOD);
         List<MenuItem> drink = menuItemDao.getByCategory(DRINK);
 
         // criar um objeto do tipo MenuAdapter (que extende Adapter)
-        MenuAdapter adapter = new MenuAdapter(menuTable, all);
+        MenuAdapter adapter = new MenuAdapter(menuTable, itemForTable);
 
         // criar um objecto do tipo LinearLayoutManager para ser utilizado na RecyclerView
         // o LinearLayoutManager tem como orientação default a orientação Vertical
@@ -86,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private View.OnClickListener buttonOnClick(MenuAdapter menuAdapter, List<MenuItem> menuItems) {
         return view -> menuAdapter.refresh(menuItems);
     }
@@ -100,4 +109,16 @@ public class MainActivity extends AppCompatActivity {
         Button buttonPay = findViewById(R.id.buttonPay);
         buttonPay.setEnabled(canPay());
     }
+
+    public void imageURL(){
+        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
+        Glide.with(this).load(menuTable.getLogoUrl()).into(imageViewLogo);
+    }
+
+    public void imageDrawable(){
+        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
+        int resourceId = getResources().getIdentifier(menuTable.getLogoUrl(), "drawable", getPackageName());
+        Glide.with(this).load(resourceId).into(imageViewLogo);
+    }
+    //TODO aplicar a mesma lógica da MenuItemDetails para obter imagem Glide/Drawable
 }

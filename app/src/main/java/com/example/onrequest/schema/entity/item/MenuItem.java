@@ -8,11 +8,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import com.example.onrequest.schema.entity.table.MenuTable;
 
 import java.util.Objects;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(
+        entity = MenuTable.class,
+        parentColumns = "menuTableId",
+        childColumns = "menuTableId",
+        onDelete = ForeignKey.CASCADE
+))
 public class MenuItem implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
@@ -37,17 +45,26 @@ public class MenuItem implements Parcelable {
     @ColumnInfo(name = "menuItemDesc")
     private String menuItemDesc;
 
+    @ColumnInfo(name = "menuTableId")
+    private long menuTableId;
+
+    //@Nullable
+    //@ColumnInfo(name = "restaurantId")
+    //private long restaurantId;
+
     public MenuItem() {
     }
 
     public MenuItem(long menuItemId, @Nullable String menuItemName, double menuItemPrice,
-                    @Nullable Uri menuItemAvatar, @Nullable MenuItemCategory menuItemCategory, @Nullable String menuItemDesc) {
+                    @Nullable Uri menuItemAvatar, @Nullable MenuItemCategory menuItemCategory, @Nullable String menuItemDesc, long menuTableId) {
         this.menuItemId = menuItemId;
         this.menuItemName = menuItemName;
         this.menuItemPrice = menuItemPrice;
         this.menuItemAvatar = menuItemAvatar;
         this.menuItemCategory = menuItemCategory;
         this.menuItemDesc = menuItemDesc;
+        //this.restaurantId = restaurantId;
+        this.menuTableId = menuTableId;
     }
 
     public long getMenuItemId() {
@@ -64,6 +81,22 @@ public class MenuItem implements Parcelable {
 
     public void setMenuItemName(String menuItemName) {
         this.menuItemName = menuItemName;
+    }
+
+    //public long getRestaurantId() {
+        //return restaurantId;
+    //}
+
+    //public void setRestaurantId(long restaurantId) {
+        //this.restaurantId = restaurantId;
+    //}
+
+    public long getMenuTableId() {
+        return menuTableId;
+    }
+
+    public void setMenuTableId(long menuTableId) {
+        this.menuTableId = menuTableId;
     }
 
     public Double getMenuItemPrice() {
