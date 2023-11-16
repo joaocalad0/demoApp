@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private View.OnClickListener buttonOnClick(MenuAdapter menuAdapter, List<MenuItem> menuItems) {
         return view -> menuAdapter.refresh(menuItems);
     }
@@ -108,4 +109,16 @@ public class MainActivity extends AppCompatActivity {
         Button buttonPay = findViewById(R.id.buttonPay);
         buttonPay.setEnabled(canPay());
     }
+
+    public void imageURL(){
+        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
+        Glide.with(this).load(menuTable.getLogoUrl()).into(imageViewLogo);
+    }
+
+    public void imageDrawable(){
+        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
+        int resourceId = getResources().getIdentifier(menuTable.getLogoUrl(), "drawable", getPackageName());
+        Glide.with(this).load(resourceId).into(imageViewLogo);
+    }
+    //TODO aplicar a mesma lógica da MenuItemDetails para obter imagem Glide/Drawable
 }

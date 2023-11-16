@@ -37,20 +37,32 @@ public class MenuDetailsActivity extends AppCompatActivity {
             CartManager cartManager = CartManager.getInstance(this);
             MenuItem menuItem = bundle.getParcelable(MENU_ITEM);
             MenuTable menuTable = bundle.getParcelable(MENU_TABLE);
-            ImageView imageViewAvatar = findViewById(R.id.imageView7);
+            //ImageView imageViewAvatar = findViewById(R.id.imageView7);
             TextView textViewDrink = findViewById(R.id.textView2);
             TextView descTextView = findViewById(R.id.descTextView);
 
             //TextView do Preço formatada(double) com duas casa decimais %.2f
             TextView price = findViewById(R.id.ItemPrice);
             double menuItemPrice = menuItem.getMenuItemPrice();
-            //String priceString = String.valueOf(menuItemPrice);
             String Currency = String.format("$%.2f", menuItemPrice);
             price.setText(Currency);
 
+            //Item ImageView
+            ImageView imageViewAvatar = findViewById(R.id.imageView7);
+            //Glide.with(this).load(menuItem.getMenuItemAvatar()).into(imageViewAvatar);
+
+            if (menuItem.getMenuItemAvatar() != null){
+                if (isDrawableResource(menuItem.getMenuItemAvatar().toString())){
+                    int resourceId = getResources().getIdentifier(menuItem.getMenuItemAvatar().toString(), "drawable", getPackageName());
+                    Glide.with(this).load(resourceId).into(imageViewAvatar);
+                }
+                else{
+                    Glide.with(this).load(menuItem.getMenuItemAvatar()).into(imageViewAvatar);
+                }
+            }
+
             descTextView.setText(menuItem.getMenuItemDesc());
             textViewDrink.setText(menuItem.getMenuItemName());
-            Glide.with(this).load(menuItem.getMenuItemAvatar()).into(imageViewAvatar);
             View addButton = findViewById(R.id.button2);
             addButton.setOnClickListener(view -> { cartManager.addMenuItem(menuTable, menuItem);
                 Toast.makeText(getApplicationContext(), String.format("Added: %s to table:%s cart!", menuItem.getMenuItemName(), menuTable.getMenuTableId()), Toast.LENGTH_SHORT).show();
@@ -59,4 +71,14 @@ public class MenuDetailsActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    private boolean isDrawableResource(String imageUrl){
+        try {
+            int resourceId = getResources().getIdentifier(imageUrl, "drawable", getPackageName());
+            return resourceId != 0;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
 }
