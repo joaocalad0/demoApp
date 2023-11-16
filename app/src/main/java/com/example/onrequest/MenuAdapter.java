@@ -103,5 +103,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             this.txtViewMenuItem = rootView.findViewById(R.id.txtViewMenuItem);
             this.imageViewAvatar = rootView.findViewById(R.id.imageViewAvatar);
         }
+
     }
 }
