@@ -3,6 +3,7 @@ package com.example.onrequest;
 import static com.example.onrequest.MainActivity.startMainActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,19 +12,24 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.onrequest.schema.dao.MenuTableDao;
 import com.example.onrequest.schema.dao.UserProfileDao;
 import com.example.onrequest.schema.db.AppDatabase;
+import com.example.onrequest.schema.entity.UserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TablesActivity extends AppCompatActivity {
 
     private MenuTableDao tableDao;
+    private UserProfileDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tableDao = AppDatabase.getInstance(this).getMenuTableDao();
+        userDao = AppDatabase.getInstance(this).getUserProfileDao();
+        UserProfile userProfile = userDao.getUserProfile();
 
         setContentView(R.layout.tables_activity);
 
@@ -41,6 +47,17 @@ public class TablesActivity extends AppCompatActivity {
         table5.setOnClickListener(buttonOnClick(5));
         table6.setOnClickListener(buttonOnClick(6));
 
+        TextView userName = findViewById(R.id.textViewUserName);
+        ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
+
+        if (userProfile != null) {
+            userName.setText(userProfile.getName());
+
+            String photoUri = userProfile.getPhoto();
+            if (photoUri != null && !photoUri.isEmpty()){
+                Glide.with(this).load(Uri.parse(photoUri)).into(userPhoto);
+            }
+        }
 
         //Bottom Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
