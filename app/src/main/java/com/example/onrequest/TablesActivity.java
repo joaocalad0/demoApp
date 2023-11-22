@@ -77,4 +77,30 @@ public class TablesActivity extends AppCompatActivity {
         return view -> startMainActivity(tableDao.getById(tableId), this);
     }
 
+    public void updateProfileView(){
+
+        AppDatabase db = AppDatabase.getInstance(this);
+        UserProfileDao userProfileDao = db.getUserProfileDao();
+        UserProfile userProfile = userProfileDao.getUserProfile();
+
+        TextView userName = findViewById(R.id.textViewUserName);
+        ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
+
+        if (userProfile != null){
+            userName.setText(userProfile.getName());
+
+            String photoUri = userProfile.getPhoto();
+            if (photoUri != null && !photoUri.isEmpty()){
+                Glide.with(this).load(Uri.parse(photoUri)).into(userPhoto);
+            }
+        }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        updateProfileView();
+    }
+
 }
+
