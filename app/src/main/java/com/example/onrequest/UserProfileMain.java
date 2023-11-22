@@ -28,6 +28,8 @@ public class UserProfileMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile_main);
 
+
+
         AppDatabase db = AppDatabase.getInstance(this);
         UserProfileDao userProfileDao = db.getUserProfileDao();
 
