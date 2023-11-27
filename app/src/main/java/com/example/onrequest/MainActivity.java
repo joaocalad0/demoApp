@@ -9,9 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +22,8 @@ import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
-import com.example.onrequest.schema.entity.item.MenuItemCategory;
 import com.example.onrequest.schema.entity.table.MenuTable;
+import com.example.onrequest.viewmodel.MainActivityViewModel;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private CartManager cartManager;
 
     private MenuTable menuTable;
-
+    private MainActivityViewModel viewModel;
     public static void startMainActivity(MenuTable menuTable, Context context) {
         Intent menuIntent = new Intent(context, MainActivity.class);
         menuIntent.putExtra("table", menuTable);
@@ -58,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         MenuItemDao menuItemDao = appDatabase.getMenuItemDao();
-        List<MenuItem> itemForTable = menuItemDao.getByTableId(menuTable.getMenuTableId());
+        LiveData<List<MenuItem>> itemForTable = menuItemDao.getByTableId(menuTable.getMenuTableId());
+
         //List<MenuItem> itemsForTableAndCategory = menuItemDao.getByCategory(FOOD, DRINK, menuTable.getMenuTableId());
-        List<MenuItem> all = menuItemDao.getAll();
+        LiveData<List<MenuItem>> all = menuItemDao.getAll();
         List<MenuItem> food = menuItemDao.getByCategory(FOOD);
         List<MenuItem> drink = menuItemDao.getByCategory(DRINK);
+
+
 
         // criar um objeto do tipo MenuAdapter (que extende Adapter)
         MenuAdapter adapter = new MenuAdapter(menuTable, itemForTable);
@@ -77,14 +81,23 @@ public class MainActivity extends AppCompatActivity {
         // Definir que a RecyclerView utiliza como LayoutManager o objeto que criámos anteriormente
         recyclerView.setLayoutManager(layoutManager);
 
+        //ModelView
+        this.viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+        this.viewModel.getMenuForTable(menuTable.getMenuTableId()).observe(this, menuItemList -> {
+            if (menuItemList != null) {
+                adapter.refresh(menuItemList);
+            }
+        });
+
         Button buttonAll = findViewById(R.id.buttonAll);
         buttonAll.setOnClickListener(buttonOnClick(adapter, all));
 
         Button buttonFood = findViewById(R.id.buttonFood);
-        buttonFood.setOnClickListener(buttonOnClick(adapter, food));
+        //buttonFood.setOnClickListener(buttonOnClick(adapter, food));
 
         Button buttonDrink = findViewById(R.id.buttonDrink);
-        buttonDrink.setOnClickListener(buttonOnClick(adapter, drink));
+        //buttonDrink.setOnClickListener(buttonOnClick(adapter, drink));
 
         Button buttonPay = findViewById(R.id.buttonPay);
         buttonPay.setEnabled(canPay());
@@ -96,8 +109,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private View.OnClickListener buttonOnClick(MenuAdapter menuAdapter, List<MenuItem> menuItems) {
-        return view -> menuAdapter.refresh(menuItems);
+    private View.OnClickListener buttonOnClick(MenuAdapter menuAdapter, LiveData<List<MenuItem>> menuItemsLiveData) {
+        return view -> {
+            List<MenuItem> menuItems = menuItemsLiveData.getValue();
+            if (menuItems != null) {
+                menuAdapter.refresh(menuItems);
+            }
+        };
     }
 
     private boolean canPay() {
@@ -111,9 +129,8 @@ public class MainActivity extends AppCompatActivity {
         buttonPay.setEnabled(canPay());
     }
 
-    public void imageURL(){
-        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
-        Glide.with(this).load(menuTable.getLogoUrl()).into(imageViewLogo);
+    public void imageURL(ImageView imageView) {
+        Glide.with(this).load(menuTable.getLogoUrl()).into(imageView);
     }
 
 

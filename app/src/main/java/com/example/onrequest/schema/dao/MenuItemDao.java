@@ -1,5 +1,6 @@
 package com.example.onrequest.schema.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,10 +16,10 @@ import java.util.List;
 public interface MenuItemDao {
 
     @Query("SELECT * FROM menuitem WHERE menuTableId = :tableId")
-    List<MenuItem> getByTableId(long tableId);
+    LiveData<List<MenuItem>> getByTableId(long tableId);
 
     @Query("SELECT * FROM menuitem")
-    List<MenuItem> getAll();
+    LiveData<List<MenuItem>> getAll();
 
     @Query("SELECT * FROM menuitem WHERE menuItemCategory = :category")
     List<MenuItem> getByCategory(MenuItemCategory category);

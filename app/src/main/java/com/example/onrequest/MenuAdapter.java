@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,13 +23,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     private final MenuTable menuTable;
 
-    private final List<MenuItem> menuList;
+    private final LiveData<List<MenuItem>> menuLiveData;
 
-
-    public MenuAdapter(MenuTable menuTable, List<MenuItem> menuList) {
+    // public MenuAdapter(MenuTable menuTable, List<MenuItem> menuList, LiveData<List<MenuItem>> menuLiveData)
+    public MenuAdapter(MenuTable menuTable, LiveData<List<MenuItem>> menuLiveData) {
         this.menuTable = menuTable;
+        this.menuLiveData = menuLiveData;
         // armazenar na variável de instância o valor do parâmetro do construtor
-        this.menuList = new ArrayList<>(menuList);
+        //this.menuList = new ArrayList<>(menuList);
     }
 
     /**
@@ -55,17 +59,29 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
      */
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
+        List<MenuItem> menuItems = menuLiveData.getValue();
         // obter o contact que existe na lista na posição dada pelo parâmetro position
-        MenuItem menuItem = this.menuList.get(position);
-        holder.txtViewMenuItem.setText(menuItem.getMenuItemName());
-        Glide.with(holder.rootView.getContext()).load(menuItem.getMenuItemAvatar()).into(holder.imageViewAvatar);
+        if (menuItems != null && position <menuItems.size()){
+            MenuItem menuItem = menuItems.get(position);
+            holder.txtViewMenuItem.setText(menuItem.getMenuItemName());
+            Glide.with(holder.rootView.getContext()).load(menuItem.getMenuItemAvatar()).into(holder.imageViewAvatar);
 
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            holder.rootView.setOnClickListener(v -> {
                 MenuDetailsActivity.startMenuDetailsActivity(holder.rootView.getContext(), menuTable, menuItem);
-            }
-        });
+            });
+            holder.rootView.setOnLongClickListener(v -> true);
+        }
+        // obter o contact que existe na lista na posição dada pelo parâmetro position
+        //MenuItem menuItem = this.menuList.get(position);
+        //holder.txtViewMenuItem.setText(menuItem.getMenuItemName());
+        //Glide.with(holder.rootView.getContext()).load(menuItem.getMenuItemAvatar()).into(holder.imageViewAvatar);
+
+        //holder.rootView.setOnClickListener(new View.OnClickListener() {
+        //@Override
+        //public void onClick(View v) {
+        //MenuDetailsActivity.startMenuDetailsActivity(holder.rootView.getContext(), menuTable, menuItem);
+        //}
+        //});
 
         holder.rootView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -88,7 +104,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
      */
     @Override
     public int getItemCount() {
-        return this.menuList.size();
+        List<MenuItem> menuItems = menuLiveData.getValue();
+        return menuItems != null ? menuItems.size() : 0;
     }
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
