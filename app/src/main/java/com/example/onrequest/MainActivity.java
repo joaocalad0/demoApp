@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +23,7 @@ import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
-import com.example.onrequest.viewmodel.MainActivityViewModel;
+import com.example.onrequest.viewmodel.MenuItemViewModel;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private CartManager cartManager;
     private MenuAdapter adapter;
     private MenuTable menuTable;
-    private MainActivityViewModel viewModel;
+    private MenuItemViewModel viewModel;
     public static void startMainActivity(MenuTable menuTable, Context context) {
         Intent menuIntent = new Intent(context, MainActivity.class);
         menuIntent.putExtra("table", menuTable);
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         //ModelView
-        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MenuItemViewModel.class);
 
 
 

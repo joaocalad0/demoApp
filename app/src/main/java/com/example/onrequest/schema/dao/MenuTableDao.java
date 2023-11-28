@@ -1,5 +1,6 @@
 package com.example.onrequest.schema.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -17,7 +18,7 @@ public interface MenuTableDao {
     MenuTable getById(long id);
 
     @Query("SELECT * FROM menutable")
-    List<MenuTable> getAll();
+    LiveData<List<MenuTable>> getAll();
 
     @Insert
     void insert(MenuTable menuTable);
