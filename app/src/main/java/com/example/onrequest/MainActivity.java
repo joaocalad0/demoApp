@@ -25,6 +25,7 @@ import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
 import com.example.onrequest.viewmodel.MenuItemViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,23 +59,23 @@ public class MainActivity extends AppCompatActivity {
         // obter uma referência para a RecyclerView que existe no layout da MainActivity4
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
-        MenuItemDao menuItemDao = appDatabase.getMenuItemDao();
-        LiveData<List<MenuItem>> itemForTableLiveData = menuItemDao.getByTableId(menuTable.getMenuTableId());
-        itemForTableLiveData.observe(this, menuItems -> {
-            if (menuItems != null) {
+        //MenuItemDao menuItemDao = appDatabase.getMenuItemDao();
+        //LiveData<List<MenuItem>> itemForTableLiveData = menuItemDao.getByTableId(menuTable.getMenuTableId());
+        //itemForTableLiveData.observe(this, menuItems -> {
+        //if (menuItems != null) {
                 // Crie uma variável local para o adapter
-                MenuAdapter adapter = new MenuAdapter(menuTable, menuItems);
+        //MenuAdapter adapter = new MenuAdapter(menuTable, menuItems);
 
                 // Defina o adapter e o layout manager na RecyclerView
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            }
-        });
+        //recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //}
+        // });
 
         //List<MenuItem> itemsForTableAndCategory = menuItemDao.getByCategory(FOOD, DRINK, menuTable.getMenuTableId());
-        LiveData<List<MenuItem>> all = menuItemDao.getAll();
-        List<MenuItem> food = menuItemDao.getByCategory(FOOD);
-        List<MenuItem> drink = menuItemDao.getByCategory(DRINK);
+        //LiveData<List<MenuItem>> all = menuItemDao.getAll();
+        //List<MenuItem> food = menuItemDao.getByCategory(FOOD);
+        //List<MenuItem> drink = menuItemDao.getByCategory(DRINK);
 
 
 
@@ -83,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
         // criar um objecto do tipo LinearLayoutManager para ser utilizado na RecyclerView
         // o LinearLayoutManager tem como orientação default a orientação Vertical
+        
+        if (adapter == null){
+            adapter = new MenuAdapter(menuTable, new ArrayList<>());
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         // Definir que a RecyclerView utiliza como Adapter o objeto que criámos anteriormente
@@ -93,12 +101,17 @@ public class MainActivity extends AppCompatActivity {
 
         //ModelView
         viewModel = new ViewModelProvider(this).get(MenuItemViewModel.class);
+        long tableId = menuTable.getMenuTableId();
+        viewModel.getMenuItemsByTableId(tableId).observe(this, menuItemList -> {
+            adapter.refresh(menuItemList);
+        });
+
 
 
 
 
         Button buttonAll = findViewById(R.id.buttonAll);
-        buttonAll.setOnClickListener(buttonOnClick(adapter, all));
+        //buttonAll.setOnClickListener(buttonOnClick(adapter, all));
 
         Button buttonFood = findViewById(R.id.buttonFood);
         //buttonFood.setOnClickListener(buttonOnClick(adapter, food));
