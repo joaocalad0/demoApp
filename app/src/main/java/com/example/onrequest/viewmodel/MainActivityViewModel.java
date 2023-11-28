@@ -6,31 +6,37 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 
+import com.example.onrequest.model.MenuItemRepository;
 import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.item.MenuItem;
+import com.example.onrequest.schema.entity.item.MenuItemCategory;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainActivityViewModel extends AndroidViewModel {
-    private MenuItemDao menuItemDao;
-    private MediatorLiveData<List<MenuItem>> menuListLiveData = new MediatorLiveData<>();
-    private long currentTableId;
+    private MenuItemRepository menuItemRepository;
+    //private MenuItemDao menuItemDao;
+    private LiveData<List<MenuItem>> allMenuItems;
+    //private long currentTableId;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
-        this.menuItemDao = AppDatabase.getInstance(application).getMenuItemDao();
-        LiveData<List<MenuItem>> sourceLiveData = menuItemDao.getByTableId(currentTableId);
-        menuListLiveData.addSource(sourceLiveData, menuItems -> {
-            menuListLiveData.setValue(menuItems);
-        });
+        menuItemRepository = new MenuItemRepository(application);
+        allMenuItems = menuItemRepository.getAllMenuItems();
     }
 
-    public LiveData<List<MenuItem>> getMenuForTable(long tableId) {
-        return menuItemDao.getByTableId(tableId);
+    public LiveData<List<MenuItem>> getAllMenuItems() {
+        return allMenuItems;
+    }
+
+    public LiveData<List<MenuItem>> getMenuItemsByTableId(long tableId) {
+        return menuItemRepository.getMenuItemsByTableId(tableId);
+    }
+
+    public List<MenuItem> getMenuItemsByCategory(MenuItemCategory category) {
+        return menuItemRepository.getMenuItemsByCategory(category);
     }
 }
+

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppDatabase appDatabase;
     private CartManager cartManager;
-
+    private MenuAdapter adapter;
     private MenuTable menuTable;
     private MainActivityViewModel viewModel;
     public static void startMainActivity(MenuTable menuTable, Context context) {
@@ -59,7 +60,17 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         MenuItemDao menuItemDao = appDatabase.getMenuItemDao();
-        LiveData<List<MenuItem>> itemForTable = menuItemDao.getByTableId(menuTable.getMenuTableId());
+        LiveData<List<MenuItem>> itemForTableLiveData = menuItemDao.getByTableId(menuTable.getMenuTableId());
+        itemForTableLiveData.observe(this, menuItems -> {
+            if (menuItems != null) {
+                // Crie uma variável local para o adapter
+                MenuAdapter adapter = new MenuAdapter(menuTable, menuItems);
+
+                // Defina o adapter e o layout manager na RecyclerView
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            }
+        });
 
         //List<MenuItem> itemsForTableAndCategory = menuItemDao.getByCategory(FOOD, DRINK, menuTable.getMenuTableId());
         LiveData<List<MenuItem>> all = menuItemDao.getAll();
@@ -69,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // criar um objeto do tipo MenuAdapter (que extende Adapter)
-        MenuAdapter adapter = new MenuAdapter(menuTable, itemForTable);
+        //MenuAdapter adapter = new MenuAdapter(menuTable, (List<MenuItem>) itemForTable);
 
         // criar um objecto do tipo LinearLayoutManager para ser utilizado na RecyclerView
         // o LinearLayoutManager tem como orientação default a orientação Vertical
@@ -82,13 +93,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         //ModelView
-        this.viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
-        this.viewModel.getMenuForTable(menuTable.getMenuTableId()).observe(this, menuItemList -> {
-            if (menuItemList != null) {
-                adapter.refresh(menuItemList);
-            }
-        });
+
+
 
         Button buttonAll = findViewById(R.id.buttonAll);
         buttonAll.setOnClickListener(buttonOnClick(adapter, all));
