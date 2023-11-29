@@ -2,6 +2,8 @@ package com.example.onrequest.manager;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.onrequest.schema.dao.CartDao;
 import com.example.onrequest.schema.dao.MenuTableDao;
 import com.example.onrequest.schema.db.AppDatabase;
@@ -39,21 +41,22 @@ public class CartManager {
 
     public List<CartWithMenuItems> getCartWithMenuItemsByTable(MenuTable menuTable) {
         Cart cart = getOpenCartByTable(menuTable);
-        return cartDao.getCartWithMenuItemByCartId(cart.getCartId());
+        return (List<CartWithMenuItems>) cartDao.getCartWithMenuItemByCartId(cart.getCartId());
     }
 
     public boolean isOpenCart(MenuTable menuTable) {
         return cartDao.getOpenCartByTable(menuTable.getMenuTableId()) != null;
     }
 
+    //TODO
     private Cart getOpenCartByTable(MenuTable menuTable) {
-        Cart cart = cartDao.getOpenCartByTable(menuTable.getMenuTableId());
-        if (cart == null) {
+        LiveData<Cart> cart = cartDao.getOpenCartByTable(menuTable.getMenuTableId());
+        if (cart.getValue() == null) {
             Cart newCart = new Cart(menuTable);
             long newCartId = cartDao.insert(newCart);
-            return cartDao.getById(newCartId);
+            return cartDao.getById(newCartId).getValue();
         }
-        return cart;
+        return cart.getValue();
     }
 
     public void payCart(Cart cart) {

@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         // criar um objecto do tipo LinearLayoutManager para ser utilizado na RecyclerView
         // o LinearLayoutManager tem como orientação default a orientação Vertical
-        
+
+        //adapter
         if (adapter == null){
             adapter = new MenuAdapter(menuTable, new ArrayList<>());
             recyclerView.setAdapter(adapter);
