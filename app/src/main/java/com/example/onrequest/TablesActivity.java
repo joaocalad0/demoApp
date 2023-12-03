@@ -11,26 +11,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.onrequest.schema.dao.MenuTableDao;
 import com.example.onrequest.schema.dao.UserProfileDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.UserProfile;
+import com.example.onrequest.viewmodel.MenuTableViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TablesActivity extends AppCompatActivity {
 
     private MenuTableDao tableDao;
     private UserProfileDao userDao;
-
+    private MenuTableViewModel menuTableViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tableDao = AppDatabase.getInstance(this).getMenuTableDao();
         userDao = AppDatabase.getInstance(this).getUserProfileDao();
         UserProfile userProfile = userDao.getUserProfile();
-
+        //MVVM
+        menuTableViewModel = new ViewModelProvider(this).get(MenuTableViewModel.class);
+        //TODO ACABAR DE IMPLEMENTAR O MVVM
         setContentView(R.layout.tables_activity);
 
         ImageView table1 = findViewById(R.id.table1);
