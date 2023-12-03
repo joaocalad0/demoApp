@@ -3,21 +3,15 @@ package com.example.onrequest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.onrequest.manager.CartManager;
-import com.example.onrequest.schema.entity.cart.Cart;
 import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
-import com.example.onrequest.viewmodel.CartViewModel;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +24,6 @@ public class CartActivity extends AppCompatActivity {
     private static final String MENU_ITEM_CART = "menuItem";
 
     private CartManager cartManager;
-    private CartViewModel cartViewModel;
 
     public static void startCartActivity(Context context, List<CartWithMenuItems> cartWithMenuItems) {
         Intent intent = new Intent(context, CartActivity.class);
@@ -43,20 +36,7 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         this.cartManager = CartManager.getInstance(this);
-
-        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
-
-        //TODO
         Intent intent = getIntent();
-        List<CartWithMenuItems> cartWithMenuItems = intent.getParcelableArrayListExtra(MENU_ITEM_CART);
-        cartViewModel.getCartWithMenuItemByCartId(cartWithMenuItems.get(0).cart.getCartId()).observe(this,cartWithMenuItems1 -> {
-            if (cartWithMenuItems1 != null && cartWithMenuItems1.isEmpty()){
-                updateUI(cartWithMenuItems1);
-            }else {
-                finish();
-            }
-        });
-
         CartWithMenuItemsPresenter menuItemCounter = new CartWithMenuItemsPresenter(intent.getParcelableArrayListExtra(MENU_ITEM_CART));
         if (!menuItemCounter.cartWithMenuItems.isEmpty()) {
             List<MenuItemWithCounter> menuItemWithCounters = menuItemCounter.getContent();
@@ -109,27 +89,4 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUI(List<CartWithMenuItems> cartWithMenuItems) {
-        CartWithMenuItemsPresenter menuItemCounter = new CartWithMenuItemsPresenter(cartWithMenuItems);
-        List<MenuItemWithCounter> menuItemWithCounters = menuItemCounter.getContent();
-
-        // Create the adapter to convert the array to views
-        MenuItemWithCounterAdapter adapter = new MenuItemWithCounterAdapter(this, menuItemWithCounters);
-
-        // Attach the adapter to a ListView
-        ListView listView = findViewById(R.id.cartListView);
-        listView.setAdapter(adapter);
-
-        double cartTotal = menuItemCounter.total();
-        TextView textView12 = findViewById(R.id.textView12);
-        textView12.setText("Total:" + cartTotal);
-
-        Button checkout = findViewById(R.id.buttonCheckOut);
-        checkout.setOnClickListener(view -> {
-            if (!menuItemCounter.cartWithMenuItems.isEmpty()) {
-                cartManager.payCart(menuItemCounter.cartWithMenuItems.get(0).cart);
-            }
-            onBackPressed();
-        });
-    }
 }

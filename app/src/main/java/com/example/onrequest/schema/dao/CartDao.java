@@ -18,20 +18,20 @@ import java.util.List;
 public interface CartDao {
 
     @Query("SELECT * FROM cart")
-    LiveData<List<Cart>> getAll();
+    List<Cart> getAll();
 
     @Query("SELECT * FROM cart where cartId = :cartId")
-    LiveData<Cart> getById(long cartId);
+    Cart getById(long cartId);
 
     @Query("SELECT * FROM cart c INNER JOIN MENUTABLE m ON c.menuTableId = m.menuTableId WHERE m.menuTableId = :tableId AND c.cartState = 'OPEN'")
-    LiveData<Cart> getOpenCartByTable(long tableId);
+    Cart getOpenCartByTable(long tableId);
 
     @Query("SELECT * FROM cartmenuitem c where c.cartId = :cartId")
-    LiveData<List<CartMenuItem>> getMenuItemByCart(long cartId);
+    List<CartMenuItem> getMenuItemByCart(long cartId);
 
     @Transaction
     @Query("SELECT * FROM cartmenuitem c where c.cartId = :cartId")
-    LiveData<List<CartWithMenuItems>> getCartWithMenuItemByCartId(long cartId);
+    List<CartWithMenuItems> getCartWithMenuItemByCartId(long cartId);
 
     @Insert
     long insert(Cart cart);
