@@ -43,7 +43,7 @@ public class TablesActivity extends AppCompatActivity {
         UserProfile userProfile = userDao.getUserProfile();
 
         this.tablesAdapter = new TablesAdapter(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setAdapter(this.tablesAdapter);
         recyclerView.setLayoutManager(layoutManager);
         //Clique do item(tables)
@@ -121,19 +121,21 @@ public class TablesActivity extends AppCompatActivity {
         TextView userName = findViewById(R.id.textViewUserName);
         ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
 
+        userName.setText("Olá!");
+
         if (userProfile != null){
-            userName.setText(userProfile.getName());
+            userName.setText("Olá!" + " " + userProfile.getName());
 
             String photoUri = userProfile.getPhoto();
-            if (photoUri != null && !photoUri.isEmpty()){
+            if (photoUri != null){
                 Glide.with(this).load(Uri.parse(photoUri)).into(userPhoto);
             }
         }
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
+    protected void onResume(){
+        super.onResume();
         updateProfileView();
     }
 

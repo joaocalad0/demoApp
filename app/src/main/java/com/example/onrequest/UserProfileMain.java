@@ -80,15 +80,15 @@ public class UserProfileMain extends AppCompatActivity {
             textViewEmail.setText(userProfile.getMail());
 
             String photoUri = userProfile.getPhoto();
-            if (photoUri != null && !photoUri.isEmpty()){
+            if (photoUri != null){
                 Glide.with(this).load(Uri.parse(photoUri)).into(imageViewProfilePhoto);
             }
         }
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
+    protected void onResume(){
+        super.onResume();
         updateProfileView();
     }
 }
