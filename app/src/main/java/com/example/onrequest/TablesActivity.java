@@ -12,30 +12,51 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.onrequest.schema.dao.MenuTableDao;
 import com.example.onrequest.schema.dao.UserProfileDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.UserProfile;
+import com.example.onrequest.schema.entity.table.MenuTable;
 import com.example.onrequest.viewmodel.MenuTableViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.List;
 
 public class TablesActivity extends AppCompatActivity {
 
     private MenuTableDao tableDao;
     private UserProfileDao userDao;
     private MenuTableViewModel menuTableViewModel;
+
+    private TablesAdapter tablesAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.tables_activity);
+        RecyclerView recyclerView = findViewById(R.id.RecyclerViewT);
         tableDao = AppDatabase.getInstance(this).getMenuTableDao();
         userDao = AppDatabase.getInstance(this).getUserProfileDao();
         UserProfile userProfile = userDao.getUserProfile();
+
+        this.tablesAdapter = new TablesAdapter(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setAdapter(this.tablesAdapter);
+        recyclerView.setLayoutManager(layoutManager);
+        //Clique do item(tables)
+
+        tablesAdapter.setOnItemClickListener(menuTable -> {
+            startMainActivity(menuTable,this);
+        });
+        loadTables();
         //MVVM
         menuTableViewModel = new ViewModelProvider(this).get(MenuTableViewModel.class);
         //TODO ACABAR DE IMPLEMENTAR O MVVM
-        setContentView(R.layout.tables_activity);
+        //setContentView(R.layout.tables_activity);
+
 
         ImageView table1 = findViewById(R.id.table1);
         ImageView table2 = findViewById(R.id.table2);
@@ -77,6 +98,14 @@ public class TablesActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void loadTables(){
+        tableDao.getAll().observe(this, menuTableList -> {
+            if (menuTableList != null && menuTableList.size() > 0){
+                tablesAdapter.refreshList(menuTableList);
+            }
+        });
     }
 
     private View.OnClickListener buttonOnClick(long tableId) {
