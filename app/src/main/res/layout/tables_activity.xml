@@ -112,10 +112,8 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="183dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_width="413dp"
+        android:layout_height="166dp"
         android:layout_marginBottom="1dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
@@ -123,7 +121,9 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerViewT"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

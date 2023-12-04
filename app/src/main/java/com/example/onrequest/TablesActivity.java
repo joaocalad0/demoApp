@@ -62,6 +62,8 @@ public class TablesActivity extends AppCompatActivity {
                 Glide.with(this).load(Uri.parse(photoUri)).into(userPhoto);
             }
         }
+        //TODO MVVM
+        //menuTableViewModel
 
         //Bottom Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
