@@ -8,115 +8,45 @@
     android:background="@drawable/bg_grey"
     tools:context=".TablesActivity">
 
-    <Button
-        android:id="@+id/table4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="#0B0A0A"
-        android:onClick="table4"
-        android:text="@string/table_4"
-        app:layout_constraintEnd_toEndOf="@+id/table2"
-        app:layout_constraintStart_toStartOf="@+id/table2"
-        app:layout_constraintTop_toBottomOf="@+id/table2" />
-
-    <Button
-        android:id="@+id/table5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="#0E0E0E"
-        android:onClick="table5"
-        android:text="@string/table_5"
-        app:layout_constraintEnd_toEndOf="@+id/table3"
-        app:layout_constraintStart_toStartOf="@+id/table3"
-        app:layout_constraintTop_toBottomOf="@+id/table3" />
-
-    <Button
-        android:id="@+id/table6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="#0C0C0C"
-        android:onClick="table6"
-        android:text="@string/table_6"
-        app:layout_constraintEnd_toEndOf="@+id/table4"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/table4"
-        app:layout_constraintTop_toBottomOf="@+id/table4" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="410dp"
         android:layout_height="65dp"
         android:layout_marginBottom="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/table6"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="@+id/table5"
         app:menu="@menu/bottom_navigation_bar" />
-
-    <ImageView
-        android:id="@+id/table1"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="232dp"
-        android:layout_marginEnd="250dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/burger_king_logo" />
-
-    <ImageView
-        android:id="@+id/table2"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="212dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.723"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mcdonalds_logo" />
-
-    <ImageView
-        android:id="@+id/table3"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="@+id/table1"
-        app:layout_constraintStart_toStartOf="@+id/table1"
-        app:layout_constraintTop_toBottomOf="@+id/table1"
-        app:srcCompat="@drawable/pizzahut_logo" />
 
     <TextView
         android:id="@+id/textViewUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="64dp"
         android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/imageViewUserPhoto"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.292"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewUserPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="55dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewUserName"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="166dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="409dp"
+        android:layout_height="213dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"

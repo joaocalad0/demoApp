@@ -92,16 +92,14 @@ public class EditUserProfile extends AppCompatActivity {
         } else {
             UserProfile userProfile = new UserProfile(0, name, "", email);
             if (selectedImageUri != null) {
-                userProfile.setPhoto(imageViewEditPhoto.toString());
+                userProfile.setPhoto(selectedImageUri.toString());
             }
             userProfileDao.insert(userProfile);
         }
-
-        //Intent intent = new Intent(this, TablesActivity.class);
-        //intent.putExtra("user_name", name);
-        //startActivity(intent);
-
-
+        //finish();
+        setResult(RESULT_OK);
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

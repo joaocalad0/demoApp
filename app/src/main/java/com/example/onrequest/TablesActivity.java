@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +32,8 @@ public class TablesActivity extends AppCompatActivity {
     private MenuTableDao tableDao;
     private UserProfileDao userDao;
     private MenuTableViewModel menuTableViewModel;
+
+    private static final int EDIT_PROFILE_REQUEST_CODE = 1;
 
     private TablesAdapter tablesAdapter;
     @Override
@@ -58,19 +61,19 @@ public class TablesActivity extends AppCompatActivity {
         //setContentView(R.layout.tables_activity);
 
 
-        ImageView table1 = findViewById(R.id.table1);
-        ImageView table2 = findViewById(R.id.table2);
-        ImageView table3 = findViewById(R.id.table3);
-        Button table4 = findViewById(R.id.table4);
-        Button table5 = findViewById(R.id.table5);
-        Button table6 = findViewById(R.id.table6);
+        //ImageView table1 = findViewById(R.id.table1);
+        //ImageView table2 = findViewById(R.id.table2);
+        //ImageView table3 = findViewById(R.id.table3);
+        //Button table4 = findViewById(R.id.table4);
+        //Button table5 = findViewById(R.id.table5);
+        //Button table6 = findViewById(R.id.table6);
 
-        table1.setOnClickListener(buttonOnClick(1));
-        table2.setOnClickListener(buttonOnClick(2));
-        table3.setOnClickListener(buttonOnClick(3));
-        table4.setOnClickListener(buttonOnClick(4));
-        table5.setOnClickListener(buttonOnClick(5));
-        table6.setOnClickListener(buttonOnClick(6));
+        //table1.setOnClickListener(buttonOnClick(1));
+        //table2.setOnClickListener(buttonOnClick(2));
+        //table3.setOnClickListener(buttonOnClick(3));
+        //table4.setOnClickListener(buttonOnClick(4));
+        //table5.setOnClickListener(buttonOnClick(5));
+        //table6.setOnClickListener(buttonOnClick(6));
 
         TextView userName = findViewById(R.id.textViewUserName);
         ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
@@ -121,15 +124,20 @@ public class TablesActivity extends AppCompatActivity {
         TextView userName = findViewById(R.id.textViewUserName);
         ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
 
-        userName.setText("Olá!");
 
         if (userProfile != null){
             userName.setText("Olá!" + " " + userProfile.getName());
 
             String photoUri = userProfile.getPhoto();
-            if (photoUri != null){
+            if (photoUri != null && !photoUri.isEmpty()){
                 Glide.with(this).load(Uri.parse(photoUri)).into(userPhoto);
             }
+            else {
+                Glide.with(this).load(R.drawable.avatar).into(userPhoto);
+            }
+        }else {
+            userName.setText("Olá!");
+            Glide.with(this).load(R.drawable.avatar).into(userPhoto);
         }
     }
 
@@ -137,6 +145,16 @@ public class TablesActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         updateProfileView();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EDIT_PROFILE_REQUEST_CODE && resultCode == RESULT_OK){
+            updateProfileView();
+
+            loadTables();
+        }
     }
 
 }
