@@ -55,8 +55,17 @@ public class MenuItem implements Parcelable {
     public MenuItem() {
     }
 
+    private double discount;
+
+    public double getDiscount() {
+        return discount;
+    }
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
     public MenuItem(long menuItemId, @Nullable String menuItemName, double menuItemPrice,
-                    @Nullable Uri menuItemAvatar, @Nullable MenuItemCategory menuItemCategory, @Nullable String menuItemDesc, long menuTableId) {
+                    @Nullable Uri menuItemAvatar, @Nullable MenuItemCategory menuItemCategory, @Nullable String menuItemDesc, long menuTableId, double discount) {
         this.menuItemId = menuItemId;
         this.menuItemName = menuItemName;
         this.menuItemPrice = menuItemPrice;
@@ -65,7 +74,9 @@ public class MenuItem implements Parcelable {
         this.menuItemDesc = menuItemDesc;
         //this.restaurantId = restaurantId;
         this.menuTableId = menuTableId;
+        this.discount = discount;
     }
+
 
     public long getMenuItemId() {
         return menuItemId;

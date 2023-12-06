@@ -12,15 +12,18 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.dao.MenuTableDao;
 import com.example.onrequest.schema.dao.UserProfileDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.UserProfile;
+import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
 import com.example.onrequest.viewmodel.MenuTableViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,7 +36,13 @@ public class TablesActivity extends AppCompatActivity {
     private UserProfileDao userDao;
     private MenuTableViewModel menuTableViewModel;
 
+    private MenuItemDao menuItemDao;
+    private MenuTable menuTable;
+
+    private DailyDiscount dailyDiscount;
+
     private static final int EDIT_PROFILE_REQUEST_CODE = 1;
+    private MenuAdapter menuAdapter;
 
     private TablesAdapter tablesAdapter;
     @Override
@@ -43,6 +52,7 @@ public class TablesActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewT);
         tableDao = AppDatabase.getInstance(this).getMenuTableDao();
         userDao = AppDatabase.getInstance(this).getUserProfileDao();
+
         UserProfile userProfile = userDao.getUserProfile();
 
         this.tablesAdapter = new TablesAdapter(this);
@@ -59,7 +69,6 @@ public class TablesActivity extends AppCompatActivity {
         menuTableViewModel = new ViewModelProvider(this).get(MenuTableViewModel.class);
         //TODO ACABAR DE IMPLEMENTAR O MVVM
         //setContentView(R.layout.tables_activity);
-
 
         //ImageView table1 = findViewById(R.id.table1);
         //ImageView table2 = findViewById(R.id.table2);
@@ -100,13 +109,35 @@ public class TablesActivity extends AppCompatActivity {
             return false;
         });
 
+        ImageView imageViewFries = findViewById(R.id.imageViewFries);
+        Glide.with(this).load(Uri.parse("https://static.vecteezy.com/system/resources/previews/022/787/312/original/illustration-of-french-fries-in-box-transparent-background-generative-ai-png.png")).into(imageViewFries);
+
+
 
     }
 
-    private void loadTables(){
+    private void loadTables() {
+        // Inicializar tablesAdapter
+        tablesAdapter = new TablesAdapter(this);
         tableDao.getAll().observe(this, menuTableList -> {
-            if (menuTableList != null && menuTableList.size() > 0){
-                tablesAdapter.refreshList(menuTableList);
+            if (menuTableList != null) {
+                // Inicializar menuTable
+                menuTable = menuTableList.get(0);
+
+                // Verificar se tablesAdapter já foi inicializado
+                if (tablesAdapter != null) {
+                    tablesAdapter.refreshList(menuTableList);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                    RecyclerView recyclerView = findViewById(R.id.RecyclerViewT);
+                    recyclerView.setAdapter(tablesAdapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    tablesAdapter.setOnItemClickListener(menuTable -> {
+                        startMainActivity(menuTable, this);
+                    });
+                    menuItemDao = AppDatabase.getInstance(this).getMenuItemDao();
+                    DailyDiscount dailyDiscount = new DailyDiscount(menuItemDao, 0.05, menuTable, tablesAdapter, menuAdapter);
+                    dailyDiscount.applyDiscount();
+                }
             }
         });
     }
