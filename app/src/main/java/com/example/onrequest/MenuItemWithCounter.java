@@ -34,4 +34,14 @@ public class MenuItemWithCounter {
         double price = getPrice();
         return REAL_FORMATTER.format(price);
     }
+
+    public double getDiscountedPrice(double discountPercentage) {
+        double originalPrice = getPrice();
+        return originalPrice - (originalPrice * discountPercentage);
+    }
+
+    public String getFormattedPrice(double discountPercentage) {
+        double discountedPrice = getDiscountedPrice(discountPercentage);
+        return REAL_FORMATTER.format(discountedPrice);
+    }
 }

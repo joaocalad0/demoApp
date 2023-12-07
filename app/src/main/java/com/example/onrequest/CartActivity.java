@@ -10,8 +10,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.onrequest.manager.CartManager;
+import com.example.onrequest.schema.dao.MenuItemDao;
+import com.example.onrequest.schema.dao.MenuTableDao;
+import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
+import com.example.onrequest.schema.entity.table.MenuTable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +29,11 @@ public class CartActivity extends AppCompatActivity {
 
     private CartManager cartManager;
 
+    private MenuItemDao menuItemDao;
+    private MenuTable menuTable;
+    private TablesAdapter tablesAdapter;
+    private MenuTableDao tableDao;
+
     public static void startCartActivity(Context context, List<CartWithMenuItems> cartWithMenuItems) {
         Intent intent = new Intent(context, CartActivity.class);
         intent.putParcelableArrayListExtra(MENU_ITEM_CART, new ArrayList<>(cartWithMenuItems));
@@ -35,6 +44,11 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        menuItemDao = AppDatabase.getInstance(this).getMenuItemDao();
+        tableDao = AppDatabase.getInstance(this).getMenuTableDao();
+        this.tablesAdapter = new TablesAdapter(this);
+
+
         this.cartManager = CartManager.getInstance(this);
         Intent intent = getIntent();
         CartWithMenuItemsPresenter menuItemCounter = new CartWithMenuItemsPresenter(intent.getParcelableArrayListExtra(MENU_ITEM_CART));
@@ -49,8 +63,12 @@ public class CartActivity extends AppCompatActivity {
             listView.setAdapter(adapter);
 
             double cartTotal = menuItemCounter.total();
+            double discountPercentage = 0.05;
+            double discountedCartTotal = new DailyDiscount(menuItemDao, discountPercentage, menuTable, tablesAdapter)
+                    .calculateDiscountedPrice(cartTotal);
+
             TextView textView12 = findViewById(R.id.textView12);
-            textView12.setText("Total:" + cartTotal);
+            textView12.setText("Total:" + discountedCartTotal);
 
             Button checkout = findViewById(R.id.buttonCheckOut);
             checkout.setOnClickListener(view -> {

@@ -22,12 +22,12 @@ public class DailyDiscount {
     private MenuTable menuTable;
     private TablesAdapter tablesAdapter;
 
-    public DailyDiscount(MenuItemDao menuItemDao, double discountPercentage, MenuTable menuTable, TablesAdapter tablesAdapter, MenuAdapter adapter) {
+    public DailyDiscount(MenuItemDao menuItemDao, double discountPercentage, MenuTable menuTable, TablesAdapter tablesAdapter) {
         this.menuItemDao = menuItemDao;
         this.discountPercentage = discountPercentage;
         this.menuTable = menuTable;
         this.tablesAdapter = tablesAdapter;
-        this.adapter = adapter;
+        //this.adapter = adapter;
 
     }
 
@@ -49,5 +49,9 @@ public class DailyDiscount {
                 adapter.refresh(menuItems);
             }
         });
+    }
+
+    public double calculateDiscountedPrice(double originalPrice) {
+        return originalPrice - (originalPrice * discountPercentage);
     }
 }

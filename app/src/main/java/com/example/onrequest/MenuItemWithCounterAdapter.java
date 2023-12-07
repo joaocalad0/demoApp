@@ -32,7 +32,9 @@ public class MenuItemWithCounterAdapter extends ArrayAdapter<MenuItemWithCounter
 
         itemName.setText(menuItemWithCounter.getMenuItemName());
         itemCounter.setText(String.valueOf(menuItemWithCounter.getCounter()));
-        itemPrice.setText(menuItemWithCounter.getFormattedPrice());
+
+        double discountPercentage = 0.05;
+        itemPrice.setText(menuItemWithCounter.getFormattedPrice(discountPercentage));
 
         // Return the completed view to render on screen
         return convertView;

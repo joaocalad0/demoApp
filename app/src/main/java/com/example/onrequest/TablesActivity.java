@@ -136,8 +136,6 @@ public class TablesActivity extends AppCompatActivity {
                     recyclerView.setLayoutManager(layoutManager);
                     menuItemDao = AppDatabase.getInstance(this).getMenuItemDao();
                     tablesAdapter.setOnItemClickListener(menuTable -> startMainActivity(menuTable, this));
-                    //DailyDiscount dailyDiscount = new DailyDiscount(menuItemDao, 0.05, menuTable, tablesAdapter, menuAdapter);
-                    //dailyDiscount.applyDiscount();
                 }
             }
         });

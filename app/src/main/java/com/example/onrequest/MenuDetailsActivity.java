@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.onrequest.manager.CartManager;
+import com.example.onrequest.schema.dao.MenuItemDao;
+import com.example.onrequest.schema.dao.MenuTableDao;
+import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
 
@@ -19,6 +22,12 @@ public class MenuDetailsActivity extends AppCompatActivity {
 
     private static final String MENU_ITEM = "menuItem";
     private static final String MENU_TABLE = "menuTable";
+
+    private DailyDiscount dailyDiscount;
+    private MenuItemDao menuItemDao;
+    //private MenuTable menuTable;
+    private MenuTableDao tableDao;
+    private TablesAdapter tablesAdapter;
 
     public static void startMenuDetailsActivity(Context context, MenuTable menuTable, MenuItem menuItem) {
         Intent intent = new Intent(context, MenuDetailsActivity.class);
@@ -31,6 +40,9 @@ public class MenuDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.onclick);
+        menuItemDao = AppDatabase.getInstance(this).getMenuItemDao();
+        tableDao = AppDatabase.getInstance(this).getMenuTableDao();
+        this.tablesAdapter = new TablesAdapter(this);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -44,9 +56,10 @@ public class MenuDetailsActivity extends AppCompatActivity {
             TextView price = findViewById(R.id.ItemPrice);
             double menuItemPrice = menuItem.getMenuItemPrice();
 
-
-
-            String Currency = String.format("$%.2f", menuItemPrice);
+            //Aplica o descontp
+            DailyDiscount discount = new DailyDiscount(menuItemDao, 0.05, menuTable, tablesAdapter);
+            double discountPrice = discount.calculateDiscountedPrice(menuItemPrice);
+            String Currency = String.format("$%.2f", discountPrice);
             price.setText(Currency);
 
             //Item ImageView
