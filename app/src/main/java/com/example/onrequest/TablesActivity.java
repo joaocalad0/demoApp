@@ -28,6 +28,7 @@ import com.example.onrequest.schema.entity.table.MenuTable;
 import com.example.onrequest.viewmodel.MenuTableViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TablesActivity extends AppCompatActivity {
@@ -54,6 +55,7 @@ public class TablesActivity extends AppCompatActivity {
         userDao = AppDatabase.getInstance(this).getUserProfileDao();
 
         UserProfile userProfile = userDao.getUserProfile();
+        updateProfileView();
 
         this.tablesAdapter = new TablesAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -119,6 +121,7 @@ public class TablesActivity extends AppCompatActivity {
     private void loadTables() {
         // Inicializar tablesAdapter
         tablesAdapter = new TablesAdapter(this);
+        menuAdapter = new MenuAdapter(menuTable, new ArrayList<>());
         tableDao.getAll().observe(this, menuTableList -> {
             if (menuTableList != null) {
                 // Inicializar menuTable

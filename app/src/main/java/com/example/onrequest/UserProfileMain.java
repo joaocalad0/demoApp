@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.onrequest.schema.dao.UserProfileDao;
@@ -79,11 +80,14 @@ public class UserProfileMain extends AppCompatActivity {
         if (userProfile != null){
             textViewName.setText(userProfile.getName());
             textViewEmail.setText(userProfile.getMail());
+            //TODO SAVE PHOTO JUST LIKE THEXVIEWNAME AND TEXTVIEWEMAIL
+            userProfile.setPhoto(imageViewProfilePhoto.toString());
 
             String photoUri = userProfile.getPhoto();
             if (photoUri != null){
                 Glide.with(this).load(Uri.parse(photoUri)).into(imageViewProfilePhoto);
-            }
+            } else {
+                Toast.makeText(this, "null img", Toast.LENGTH_LONG);}
         }
     }
 
