@@ -37,13 +37,15 @@ public class MenuDetailsActivity extends AppCompatActivity {
             CartManager cartManager = CartManager.getInstance(this);
             MenuItem menuItem = bundle.getParcelable(MENU_ITEM);
             MenuTable menuTable = bundle.getParcelable(MENU_TABLE);
-            //ImageView imageViewAvatar = findViewById(R.id.imageView7);
             TextView textViewDrink = findViewById(R.id.textView2);
             TextView descTextView = findViewById(R.id.descTextView);
 
             //TextView do Preço formatada(double) com duas casa decimais %.2f
             TextView price = findViewById(R.id.ItemPrice);
             double menuItemPrice = menuItem.getMenuItemPrice();
+
+
+
             String Currency = String.format("$%.2f", menuItemPrice);
             price.setText(Currency);
 
@@ -79,6 +81,11 @@ public class MenuDetailsActivity extends AppCompatActivity {
         }catch (Exception e){
             return false;
         }
+    }
+
+    private void applyDiscount(MenuTable menuTable, MenuItem menuItem){
+        CartManager cartManager = CartManager.getInstance(this);
+        cartManager.addMenuItem(menuTable, menuItem);
     }
 
 }

@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class DailyDiscount {
     private final MenuItemDao menuItemDao;
-    private double discountPercentage;
+     double discountPercentage;
     private MenuAdapter adapter;
     private MenuTable menuTable;
     private TablesAdapter tablesAdapter;
@@ -38,14 +38,12 @@ public class DailyDiscount {
             if (menuItems != null) {
                 Random randomItem = new Random();
                 Collections.shuffle(menuItems);
-
-                int numberOfItems = Math.min(20, menuItems.size());
-
+                int numberOfItems = Math.min(5, menuItems.size());
                 for (int i = 0; i < numberOfItems; i++) {
                     MenuItem menuItem = menuItems.get(i);
                     double price = menuItem.getMenuItemPrice();
                     double discount = price * discountPercentage;
-                    menuItem.setDiscount(discount);
+                    menuItem.setMenuItemPrice(discount);
                     menuItemDao.update(menuItem);
                 }
                 adapter.refresh(menuItems);

@@ -61,12 +61,11 @@ public class TablesActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setAdapter(this.tablesAdapter);
         recyclerView.setLayoutManager(layoutManager);
+        loadTables();
         //Clique do item(tables)
-
         tablesAdapter.setOnItemClickListener(menuTable -> {
             startMainActivity(menuTable,this);
         });
-        loadTables();
         //MVVM
         menuTableViewModel = new ViewModelProvider(this).get(MenuTableViewModel.class);
         //TODO ACABAR DE IMPLEMENTAR O MVVM
@@ -122,6 +121,7 @@ public class TablesActivity extends AppCompatActivity {
         // Inicializar tablesAdapter
         tablesAdapter = new TablesAdapter(this);
         menuAdapter = new MenuAdapter(menuTable, new ArrayList<>());
+
         tableDao.getAll().observe(this, menuTableList -> {
             if (menuTableList != null) {
                 // Inicializar menuTable
@@ -134,17 +134,14 @@ public class TablesActivity extends AppCompatActivity {
                     RecyclerView recyclerView = findViewById(R.id.RecyclerViewT);
                     recyclerView.setAdapter(tablesAdapter);
                     recyclerView.setLayoutManager(layoutManager);
-                    tablesAdapter.setOnItemClickListener(menuTable -> {
-                        startMainActivity(menuTable, this);
-                    });
                     menuItemDao = AppDatabase.getInstance(this).getMenuItemDao();
-                    DailyDiscount dailyDiscount = new DailyDiscount(menuItemDao, 0.05, menuTable, tablesAdapter, menuAdapter);
-                    dailyDiscount.applyDiscount();
+                    tablesAdapter.setOnItemClickListener(menuTable -> startMainActivity(menuTable, this));
+                    //DailyDiscount dailyDiscount = new DailyDiscount(menuItemDao, 0.05, menuTable, tablesAdapter, menuAdapter);
+                    //dailyDiscount.applyDiscount();
                 }
             }
         });
     }
-
     private View.OnClickListener buttonOnClick(long tableId) {
         return view -> startMainActivity(tableDao.getById(tableId), this);
     }
