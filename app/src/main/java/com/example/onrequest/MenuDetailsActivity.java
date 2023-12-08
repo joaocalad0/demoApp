@@ -51,6 +51,7 @@ public class MenuDetailsActivity extends AppCompatActivity {
             MenuTable menuTable = bundle.getParcelable(MENU_TABLE);
             TextView textViewDrink = findViewById(R.id.textView2);
             TextView descTextView = findViewById(R.id.descTextView);
+            TextView priceOG = findViewById(R.id.PriceOG);
 
             //TextView do Preço formatada(double) com duas casa decimais %.2f
             TextView price = findViewById(R.id.ItemPrice);
@@ -59,7 +60,7 @@ public class MenuDetailsActivity extends AppCompatActivity {
             //Aplica o descontp
             DailyDiscount discount = new DailyDiscount(menuItemDao, 0.05, menuTable, tablesAdapter);
             double discountPrice = discount.calculateDiscountedPrice(menuItemPrice);
-            String Currency = String.format("$%.2f", discountPrice);
+            String Currency = String.format("Now "+"$%.2f", discountPrice);
             price.setText(Currency);
 
             //Item ImageView
@@ -75,6 +76,8 @@ public class MenuDetailsActivity extends AppCompatActivity {
                     Glide.with(this).load(menuItem.getMenuItemAvatar()).into(imageViewAvatar);
                 }
             }
+            String originalPrice = Double.toString(menuItemPrice);
+            priceOG.setText("Before " + "$" + originalPrice);
 
             descTextView.setText(menuItem.getMenuItemDesc());
             textViewDrink.setText(menuItem.getMenuItemName());
