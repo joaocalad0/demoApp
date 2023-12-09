@@ -80,14 +80,14 @@ public class UserProfileMain extends AppCompatActivity {
         if (userProfile != null){
             textViewName.setText(userProfile.getName());
             textViewEmail.setText(userProfile.getMail());
-            //TODO SAVE PHOTO JUST LIKE THEXVIEWNAME AND TEXTVIEWEMAIL
-            userProfile.setPhoto(imageViewProfilePhoto.toString());
 
             String photoUri = userProfile.getPhoto();
             if (photoUri != null){
                 Glide.with(this).load(Uri.parse(photoUri)).into(imageViewProfilePhoto);
             } else {
-                Toast.makeText(this, "null img", Toast.LENGTH_LONG);}
+                imageViewProfilePhoto.setImageDrawable(null);
+                Toast.makeText(this, "Imagem nula", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

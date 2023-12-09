@@ -31,61 +31,37 @@ import java.io.OutputStream;
 
 public class EditUserProfile extends AppCompatActivity {
 
-    private EditText editTextname;
-    private EditText editTextemail;
+    private static final int REQUEST_SELECT_GALLERY = 2;
+    private static final int RESULT_PROFILE_CREATED = 3;
+
+    private EditText editTextName;
+    private EditText editTextEmail;
     private ImageView imageViewEditPhoto;
     private Button buttonApply;
 
     private Uri selectedImageUri;
-
-    private final int GALLERY_REQUEST_CODE = 1000;
-
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-            selectedImageUri = result.getData().getData();
-            if (selectedImageUri != null) {
-                Glide.with(this).load(selectedImageUri).into(imageViewEditPhoto);
-            } else {
-                Toast.makeText(this, "Erro ao obter imagem", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(this, "Nenhuma imagem selecionada", Toast.LENGTH_SHORT).show();
-        }
-    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
 
-        editTextname = findViewById(R.id.editTextname);
-        editTextemail = findViewById(R.id.editTextemail);
+        // Cache Views
+        editTextName = findViewById(R.id.editTextname);
+        editTextEmail = findViewById(R.id.editTextemail);
         imageViewEditPhoto = findViewById(R.id.imageViewEditPhoto);
         buttonApply = findViewById(R.id.buttonApply);
 
         FloatingActionButton pickImage = findViewById(R.id.pickImage);
-        pickImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, GALLERY_REQUEST_CODE);
-            }
-        });
+        pickImage.setOnClickListener(view -> openGallery());
 
-        buttonApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                applyChanges();
-            }
-        });
-
-
+        buttonApply.setOnClickListener(view -> applyChanges());
     }
 
     private void applyChanges() {
-        String name = editTextname.getText().toString();
-        String email = editTextemail.getText().toString();
+        String name = editTextName.getText().toString();
+        String email = editTextEmail.getText().toString();
+        String photoUri = selectedImageUri != null ? selectedImageUri.toString() : "";
 
         AppDatabase db = AppDatabase.getInstance(this);
         UserProfileDao userProfileDao = db.getUserProfileDao();
@@ -99,7 +75,6 @@ public class EditUserProfile extends AppCompatActivity {
                 existingProfile.setPhoto(selectedImageUri.toString());
             }
 
-
             userProfileDao.update(existingProfile);
         } else {
             UserProfile userProfile = new UserProfile(0, name, "", email);
@@ -108,10 +83,31 @@ public class EditUserProfile extends AppCompatActivity {
             }
             userProfileDao.insert(userProfile);
         }
-        //finish();
-        setResult(RESULT_OK);
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
+
+        showMessage("Perfil Atualizado");
+        setResult(RESULT_PROFILE_CREATED);
         finish();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_SELECT_GALLERY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null && requestCode == REQUEST_SELECT_GALLERY) {
+                selectedImageUri = uri;
+                Glide.with(this).load(selectedImageUri).into(imageViewEditPhoto);
+            }
+        }
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -46,6 +46,8 @@ public class TablesActivity extends AppCompatActivity {
     private MenuAdapter menuAdapter;
 
     private TablesAdapter tablesAdapter;
+
+    private ImageView imageViewUserPhoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,29 +146,26 @@ public class TablesActivity extends AppCompatActivity {
         return view -> startMainActivity(tableDao.getById(tableId), this);
     }
 
-    public void updateProfileView(){
-
+    public void updateProfileView() {
         AppDatabase db = AppDatabase.getInstance(this);
         UserProfileDao userProfileDao = db.getUserProfileDao();
         UserProfile userProfile = userProfileDao.getUserProfile();
 
         TextView userName = findViewById(R.id.textViewUserName);
-        ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
+        imageViewUserPhoto = findViewById(R.id.imageViewUserPhoto);
 
+        if (userProfile != null) {
+            userName.setText("Olá! " + userProfile.getName());
 
-        if (userProfile != null){
-            userName.setText("Olá!" + " " + userProfile.getName());
-
-            String photoUri = userProfile.getPhoto();
-            if (photoUri != null && !photoUri.isEmpty()){
-                Glide.with(this).load(Uri.parse(photoUri)).into(userPhoto);
+           String photoUri = userProfile.getPhoto();
+            if (photoUri != null) {
+                Glide.with(this).load(Uri.parse(userProfile.getPhoto())).into(imageViewUserPhoto);
+           } else {
+                Glide.with(this).load(R.drawable.avatar).into(imageViewUserPhoto);
             }
-            else {
-                Glide.with(this).load(R.drawable.avatar).into(userPhoto);
-            }
-        }else {
+        } else {
             userName.setText("Olá!");
-            Glide.with(this).load(R.drawable.avatar).into(userPhoto);
+            Glide.with(this).load(R.drawable.avatar).into(imageViewUserPhoto);
         }
     }
 
@@ -185,6 +184,7 @@ public class TablesActivity extends AppCompatActivity {
             loadTables();
         }
     }
+
 
 }
 
