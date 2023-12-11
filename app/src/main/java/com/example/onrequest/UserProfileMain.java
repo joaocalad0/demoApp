@@ -24,6 +24,8 @@ public class UserProfileMain extends AppCompatActivity {
     private TextView textViewEmail;
     private Button editButton;
 
+    private Button buttonLocalization;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,20 @@ public class UserProfileMain extends AppCompatActivity {
         textViewName = findViewById(R.id.textViewName);
         textViewEmail = findViewById(R.id.textViewEmail);
         editButton = findViewById(R.id.button_edit);
+        buttonLocalization= findViewById(R.id.buttonLocalization);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openEditProfile();
 
+            }
+        });
+
+        buttonLocalization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMap();
             }
         });
 
@@ -69,6 +79,11 @@ public class UserProfileMain extends AppCompatActivity {
 
     public void openEditProfile(){
         Intent intent = new Intent(this, EditUserProfile.class);
+        startActivity(intent);
+    }
+
+    public void openMap(){
+        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 
