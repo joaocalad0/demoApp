@@ -11,9 +11,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url = uri("https://repositories.tomtom.com/artifactory/maven")
+            credentials {
+                username = settings.ext.find('CarlosAlvaro')
+                password = settings.ext.find('s5su6wxy!A')
+                url = uri("https://repositories.tomtom.com/artifactory/maven")
+            }
         }
     }
+    rootProject.name = "onrequest"
+    include ':app'
 }
-rootProject.name = "onrequest"
-include ':app'
