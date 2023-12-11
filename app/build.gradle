@@ -31,6 +31,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+    buildTypes.configureEach {
+        buildConfigField("String", "TOMTOM_API_KEY", "\"eVzXze0uMakJee98V8x8UKVuDlVuCGko\"")
+    }
 }
 
 dependencies {
