@@ -31,6 +31,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class TablesActivity extends AppCompatActivity {
 
     private MenuTableDao tableDao;
@@ -48,6 +52,7 @@ public class TablesActivity extends AppCompatActivity {
     private TablesAdapter tablesAdapter;
 
     private ImageView imageViewUserPhoto;
+    private MenuItemAPI menuItemAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,7 @@ public class TablesActivity extends AppCompatActivity {
 
         UserProfile userProfile = userDao.getUserProfile();
         updateProfileView();
+        ApiService();
 
         this.tablesAdapter = new TablesAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -114,7 +120,6 @@ public class TablesActivity extends AppCompatActivity {
 
         ImageView imageViewFries = findViewById(R.id.imageViewFries);
         Glide.with(this).load(Uri.parse("https://static.vecteezy.com/system/resources/previews/022/787/312/original/illustration-of-french-fries-in-box-transparent-background-generative-ai-png.png")).into(imageViewFries);
-
 
 
     }
@@ -185,6 +190,37 @@ public class TablesActivity extends AppCompatActivity {
         }
     }
 
+    private void  ApiService(){
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<MenuItemAPI> callCreate = apiService.createMenuItemApi(menuItemAPI);
+        callCreate.enqueue(new Callback<MenuItemAPI>() {
+            @Override
+            public void onResponse(Call<MenuItemAPI> call, Response<MenuItemAPI> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<MenuItemAPI> call, Throwable t) {
+
+            }
+        });
+        //TODO terminar a api
+        // Exemplo: Chamar a operação searchMenuItems
+        Call<List<MenuItemAPI>> callSearch = apiService.searchMenuItems("pizza");
+        callSearch.enqueue(new Callback<List<MenuItemAPI>>() {
+            @Override
+            public void onResponse(Call<List<MenuItemAPI>> call, Response<List<MenuItemAPI>> response) {
+                // Lidar com a resposta bem-sucedida aqui
+            }
+
+            @Override
+            public void onFailure(Call<List<MenuItemAPI>> call, Throwable t) {
+                // Lidar com falha aqui
+            }
+        });
+
+
+    }
 
 }
 
