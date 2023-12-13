@@ -33,6 +33,7 @@ public class AllMenuItems extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewA);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        menuItemAPIList = new ArrayList<>();
 
         apiAdapter = new ApiAdapter(menuItemAPIList, this);
         recyclerView.setAdapter(apiAdapter);
@@ -46,8 +47,9 @@ public class AllMenuItems extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<MenuItemAPI>> call, Response<List<MenuItemAPI>> response) {
                 if (response.isSuccessful()) {
-                    menuItemAPIList = response.body(); // Atualize a lista
-                    apiAdapter.updateAdapter(menuItemAPIList);
+                    //menuItemAPIList = response.body(); // Atualize a lista
+                    menuItemAPIList.addAll(response.body());
+                    apiAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(AllMenuItems.this, "Erro ao obter itens do menu", Toast.LENGTH_SHORT).show();
                 }
@@ -55,7 +57,7 @@ public class AllMenuItems extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<MenuItemAPI>> call, Throwable t) {
-                Toast.makeText(AllMenuItems.this, "Erro de rede", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllMenuItems.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

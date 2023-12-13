@@ -4,6 +4,11 @@ public class MenuItemAPI {
     private String menuItemName;
     private int menuItemPrice;
 
+    public MenuItemAPI(String menuItemName, int menuItemPrice) {
+        this.menuItemName = menuItemName;
+        this.menuItemPrice = menuItemPrice;
+    }
+
     public String getMenuItemName() {
         return menuItemName;
     }

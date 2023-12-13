@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 
 public interface ApiService {
-    @POST("api/menu-items/")
+    @GET("menu-items")
     Call<List<MenuItemAPI>> getMenuItems();
 
     @GET("menu_items/search")
