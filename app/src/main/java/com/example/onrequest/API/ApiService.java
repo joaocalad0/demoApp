@@ -1,4 +1,4 @@
-package com.example.onrequest;
+package com.example.onrequest.API;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     @POST("menu_items")
-    retrofit2.Call<MenuItemAPI> createMenuItemApi(@Body MenuItemAPI menuItemAPI);
+    Call<List<MenuItemAPI>> getMenuItems(@Body MenuItemAPI menuItemAPI);
 
     @GET("menu_items/search")
     Call<List<MenuItemAPI>> searchMenuItems(@Query("keyword") String keyword);

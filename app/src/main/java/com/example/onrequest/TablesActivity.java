@@ -12,18 +12,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.onrequest.API.DataSource;
+import com.example.onrequest.API.ApiService;
+import com.example.onrequest.API.MenuItemAPI;
 import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.dao.MenuTableDao;
 import com.example.onrequest.schema.dao.UserProfileDao;
 import com.example.onrequest.schema.db.AppDatabase;
 import com.example.onrequest.schema.entity.UserProfile;
-import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
 import com.example.onrequest.viewmodel.MenuTableViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,6 +54,7 @@ public class TablesActivity extends AppCompatActivity {
 
     private ImageView imageViewUserPhoto;
     private MenuItemAPI menuItemAPI;
+    private Button button_api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,6 @@ public class TablesActivity extends AppCompatActivity {
 
         UserProfile userProfile = userDao.getUserProfile();
         updateProfileView();
-        ApiService();
 
         this.tablesAdapter = new TablesAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -92,7 +93,14 @@ public class TablesActivity extends AppCompatActivity {
         //table4.setOnClickListener(buttonOnClick(4));
         //table5.setOnClickListener(buttonOnClick(5));
         //table6.setOnClickListener(buttonOnClick(6));
+        button_api = findViewById(R.id.button_api);
 
+        button_api.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAllMenuItems();
+            }
+        });
         TextView userName = findViewById(R.id.textViewUserName);
         ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
 
@@ -173,7 +181,10 @@ public class TablesActivity extends AppCompatActivity {
             Glide.with(this).load(R.drawable.avatar).into(imageViewUserPhoto);
         }
     }
-
+    public void openAllMenuItems(){
+        Intent intent = new Intent(this, AllMenuItems.class);
+        startActivity(intent);
+    }
     @Override
     protected void onResume(){
         super.onResume();
@@ -190,37 +201,7 @@ public class TablesActivity extends AppCompatActivity {
         }
     }
 
-    private void  ApiService(){
-        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<MenuItemAPI> callCreate = apiService.createMenuItemApi(menuItemAPI);
-        callCreate.enqueue(new Callback<MenuItemAPI>() {
-            @Override
-            public void onResponse(Call<MenuItemAPI> call, Response<MenuItemAPI> response) {
 
-            }
-
-            @Override
-            public void onFailure(Call<MenuItemAPI> call, Throwable t) {
-
-            }
-        });
-        //TODO terminar a api
-        // Exemplo: Chamar a operação searchMenuItems
-        Call<List<MenuItemAPI>> callSearch = apiService.searchMenuItems("pizza");
-        callSearch.enqueue(new Callback<List<MenuItemAPI>>() {
-            @Override
-            public void onResponse(Call<List<MenuItemAPI>> call, Response<List<MenuItemAPI>> response) {
-                // Lidar com a resposta bem-sucedida aqui
-            }
-
-            @Override
-            public void onFailure(Call<List<MenuItemAPI>> call, Throwable t) {
-                // Lidar com falha aqui
-            }
-        });
-
-
-    }
 
 }
 

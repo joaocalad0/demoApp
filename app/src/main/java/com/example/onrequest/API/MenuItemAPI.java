@@ -1,8 +1,8 @@
-package com.example.onrequest;
+package com.example.onrequest.API;
 
 public class MenuItemAPI {
     private String menuItemName;
-    private int menuItemQuantity;
+    private int menuItemPrice;
 
     public String getMenuItemName() {
         return menuItemName;
@@ -12,11 +12,11 @@ public class MenuItemAPI {
         this.menuItemName = menuItemName;
     }
 
-    public int getMenuItemQuantity() {
-        return menuItemQuantity;
+    public int getMenuItemPrice() {
+        return menuItemPrice;
     }
 
     public void setMenuItemQuantity(int menuItemQuantity) {
-        this.menuItemQuantity = menuItemQuantity;
+        this.menuItemPrice = menuItemQuantity;
     }
 }
