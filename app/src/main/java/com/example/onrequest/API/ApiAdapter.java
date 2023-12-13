@@ -15,8 +15,8 @@ import com.example.onrequest.R;
 import java.util.List;
 
 public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.ViewHolder> {
-    private List<MenuItemAPI> menuItems;
-    private Context context;
+     List<MenuItemAPI> menuItems;
+     Context context;
 
     public ApiAdapter(List<MenuItemAPI> menuItems, Context context) {
         this.menuItems = menuItems;
@@ -35,7 +35,8 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.ViewHolder> {
         MenuItemAPI menuItem = menuItems.get(position);
 
         holder.name.setText(menuItem.getMenuItemName());
-        holder.price.setText(menuItem.getMenuItemPrice());
+        holder.price.setText(String.valueOf(menuItem.getMenuItemPrice()));
+
 
         //Picasso.get().load(menuItem.getMenuItemAvatarUrl()).into(holder.menuItemAvatar);
     }
@@ -43,6 +44,12 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return menuItems.size();
+    }
+
+
+    public void updateAdapter(List<MenuItemAPI> menuItemAPIList){
+        menuItems = menuItemAPIList;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

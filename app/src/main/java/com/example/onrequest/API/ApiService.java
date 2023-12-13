@@ -3,15 +3,14 @@ package com.example.onrequest.API;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 
 public interface ApiService {
-    @POST("menu_items")
-    Call<List<MenuItemAPI>> getMenuItems(@Body MenuItemAPI menuItemAPI);
+    @POST("api/menu-items/")
+    Call<List<MenuItemAPI>> getMenuItems();
 
     @GET("menu_items/search")
     Call<List<MenuItemAPI>> searchMenuItems(@Query("keyword") String keyword);
