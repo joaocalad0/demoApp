@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.onrequest.R;
 
 import java.util.List;
@@ -35,10 +36,13 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.ViewHolder> {
         MenuItemAPI menuItem = menuItems.get(position);
 
         holder.name.setText(menuItem.getMenuItemName());
-        holder.price.setText(String.valueOf(menuItem.getMenuItemPrice()));
+        holder.price.setText("$" + String.valueOf(menuItem.getMenuItemPrice()));
+
+        //Glide.with(context.getApplicationContext()).load(menuItems.get(position).getImageURL()).centerCrop().into(holder.menuItemAvatar);
 
 
         //Picasso.get().load(menuItem.getMenuItemAvatarUrl()).into(holder.menuItemAvatar);
+
     }
 
     @Override
@@ -60,8 +64,10 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            //menuItemAvatar = itemView.findViewById(R.id.imageMenuItemAvatar);
+            menuItemAvatar = itemView.findViewById(R.id.avatar);
             price = itemView.findViewById(R.id.price);
+
+
         }
     }
 }

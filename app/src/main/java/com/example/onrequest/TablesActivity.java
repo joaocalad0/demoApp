@@ -102,15 +102,9 @@ public class TablesActivity extends AppCompatActivity {
             }
         });
         TextView userName = findViewById(R.id.textViewUserName);
-        ImageView userPhoto = findViewById(R.id.imageViewUserPhoto);
 
         if (userProfile != null) {
             userName.setText(userProfile.getName());
-
-            String photoUri = userProfile.getPhoto();
-            if (photoUri != null && !photoUri.isEmpty()){
-                Glide.with(this).load(Uri.parse(photoUri)).into(userPhoto);
-            }
         }
         //TODO MVVM
         //menuTableViewModel
@@ -165,20 +159,11 @@ public class TablesActivity extends AppCompatActivity {
         UserProfile userProfile = userProfileDao.getUserProfile();
 
         TextView userName = findViewById(R.id.textViewUserName);
-        imageViewUserPhoto = findViewById(R.id.imageViewUserPhoto);
 
         if (userProfile != null) {
             userName.setText("Olá! " + userProfile.getName());
-
-           String photoUri = userProfile.getPhoto();
-            if (photoUri != null) {
-                Glide.with(this).load(Uri.parse(userProfile.getPhoto())).into(imageViewUserPhoto);
-           } else {
-                Glide.with(this).load(R.drawable.avatar).into(imageViewUserPhoto);
-            }
         } else {
             userName.setText("Olá!");
-            Glide.with(this).load(R.drawable.avatar).into(imageViewUserPhoto);
         }
     }
     public void openAllMenuItems(){

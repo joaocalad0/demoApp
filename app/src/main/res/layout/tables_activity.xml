@@ -34,26 +34,15 @@
         android:id="@+id/textViewUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="164dp"
         android:text="TextView"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewUserPhoto"
-        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageViewUserPhoto"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="68dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -132,10 +121,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="169dp"
-        android:text="Button"
+        android:backgroundTint="@color/yellow"
+        android:text="Check our Menu!"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.367"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
