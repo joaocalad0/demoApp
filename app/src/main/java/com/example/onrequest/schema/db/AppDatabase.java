@@ -9,7 +9,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.example.onrequest.UserProfileMain;
+import com.example.onrequest.User;
+import com.example.onrequest.UserDao;
 import com.example.onrequest.schema.converters.Converters;
 import com.example.onrequest.schema.dao.CartDao;
 import com.example.onrequest.schema.dao.MenuItemDao;
@@ -27,7 +28,8 @@ import com.example.onrequest.schema.entity.table.MenuTable;
                 Cart.class,
                 CartMenuItem.class,
                 MenuTable.class,
-                UserProfile.class
+                UserProfile.class,
+                User.class,
 
         },
         version = 1
@@ -42,6 +44,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MenuTableDao getMenuTableDao();
 
     public abstract UserProfileDao getUserProfileDao();
+
+    public abstract UserDao getUserDao();
 
     private static AppDatabase INSTANCE;
 
