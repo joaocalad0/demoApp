@@ -12,12 +12,18 @@ public class MenuItemWithCounter {
 
     private final int counter;
 
+    private String menuItemImage;
 
-    public MenuItemWithCounter(MenuItem menuItem, int counter) {
+
+    public MenuItemWithCounter(MenuItem menuItem, int counter, String menuItemImage) {
         this.menuItem = menuItem;
         this.counter = counter;
+        this.menuItemImage = menuItemImage;
     }
 
+    public String getMenuItemImage(){
+        return menuItemImage;
+    }
     public int getCounter() {
         return counter;
     }

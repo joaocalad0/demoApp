@@ -99,7 +99,8 @@ public class CartActivity extends AppCompatActivity {
                 Integer counter = counterMap.get(cartWithMenuItems.menuItem) != null ? (counterMap.get(cartWithMenuItems.menuItem) + 1) : 1;
                 counterMap.put(cartWithMenuItems.menuItem, counter);
             });
-            return counterMap.entrySet().stream().map(it -> new MenuItemWithCounter(it.getKey(), it.getValue())).collect(Collectors.toList());
+            return counterMap.entrySet().stream().map(it -> new MenuItemWithCounter(it.getKey(), it.getValue(), "")).collect(Collectors.toList());
+
         }
 
         public double total() {
