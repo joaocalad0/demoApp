@@ -60,6 +60,8 @@ public class MenuDetailsActivity extends AppCompatActivity {
             //Aplica o descontp
             DailyDiscount discount = new DailyDiscount(menuItemDao, 0.05, menuTable, tablesAdapter);
             double discountPrice = discount.calculateDiscountedPrice(menuItemPrice);
+            //TextView do Preço formatada(double) com duas casa decimais %.2f
+
             String Currency = String.format("Now "+"$%.2f", discountPrice);
             price.setText(Currency);
 

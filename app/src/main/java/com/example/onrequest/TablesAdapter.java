@@ -44,7 +44,7 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MenuTable menuTable = menuTableList.get(position);
 
-        holder.tableName.setText("Table" + menuTable.getMenuTableId());
+        //holder.tableName.setText("Table" + menuTable.getMenuTableId());
         Glide.with(holder.itemView.getContext()).load(menuTable.getLogoUrl()).into(holder.tablesAvatar);
 
         holder.itemView.setOnClickListener(view -> {
@@ -70,12 +70,12 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
     //TODO
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView tablesAvatar;
-        public TextView tableName;
+        //public TextView tableName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             this.tablesAvatar = itemView.findViewById(R.id.tablesAvatar);
-            this.tableName = itemView.findViewById(R.id.tableName);
+            //this.tableName = itemView.findViewById(R.id.tableName);
         }
     }
 }

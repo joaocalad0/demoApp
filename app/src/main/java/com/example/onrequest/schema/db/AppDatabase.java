@@ -106,7 +106,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO menuTable (menuTableId, logoUrl) VALUES (3, 'https://www.comidas.pt/upload/media/cache/7baa4f3fe1855bbcfccba59bc8926e5f_logos.png')");
                             db.execSQL("INSERT INTO menuTable (menuTableId, logoUrl) VALUES (4, 'https://www.comidas.pt/upload/media/cache/46db6ac037b47f02983373d371fbe5b3_logos.png')");
                             db.execSQL("INSERT INTO menuTable (menuTableId, logoUrl) VALUES (5, 'https://www.comidas.pt/upload/media/cache/0f0d6ef23ecf8137fb2e7f7c40aadf89_logos.png')");
-                            db.execSQL("INSERT INTO menuTable (menuTableId) VALUES (6)");
                         }
                     }).build();
         }

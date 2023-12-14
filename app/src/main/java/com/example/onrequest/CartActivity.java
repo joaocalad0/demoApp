@@ -17,6 +17,7 @@ import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,8 +68,11 @@ public class CartActivity extends AppCompatActivity {
             double discountedCartTotal = new DailyDiscount(menuItemDao, discountPercentage, menuTable, tablesAdapter)
                     .calculateDiscountedPrice(cartTotal);
 
+            DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+            String formattedTotal = decimalFormat.format(discountedCartTotal);
+
             TextView textView12 = findViewById(R.id.textView12);
-            textView12.setText("Total:" + discountedCartTotal);
+            textView12.setText("Total:" + formattedTotal);
 
             Button checkout = findViewById(R.id.buttonCheckOut);
             checkout.setOnClickListener(view -> {
