@@ -46,7 +46,7 @@
             android:exported="false" />
         <activity
             android:name=".TablesActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -55,7 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".StartActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -30,7 +30,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/rest"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
@@ -43,7 +43,7 @@
             app:srcCompat="@drawable/restaurant" />
 
         <ImageView
-            android:id="@+id/imageView12"
+            android:id="@+id/end_point"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="108dp"
@@ -53,5 +53,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/home_alt_white_regular_24" />
+
+        <ImageView
+            android:id="@+id/moving_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.142"
+            app:srcCompat="@drawable/cajos"
+            tools:layout_editor_absoluteX="154dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
