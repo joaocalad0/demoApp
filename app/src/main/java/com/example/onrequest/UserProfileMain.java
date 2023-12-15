@@ -25,6 +25,7 @@ public class UserProfileMain extends AppCompatActivity {
     private Button editButton;
 
     private Button buttonLocalization;
+    private Button button_delivery;
 
 
     @Override
@@ -42,6 +43,7 @@ public class UserProfileMain extends AppCompatActivity {
         textViewEmail = findViewById(R.id.textViewEmail);
         editButton = findViewById(R.id.button_edit);
         buttonLocalization= findViewById(R.id.buttonLocalization);
+        button_delivery = findViewById(R.id.button_delivery);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +58,13 @@ public class UserProfileMain extends AppCompatActivity {
             public void onClick(View view) {
 
                 openReceipt();
+            }
+        });
+
+        button_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDelivery();
             }
         });
 
@@ -85,6 +94,11 @@ public class UserProfileMain extends AppCompatActivity {
 
     public void openReceipt(){
         Intent intent = new Intent(this, ReceiptActivity.class);
+        startActivity(intent);
+    }
+
+    public void openDelivery(){
+        Intent intent = new Intent(this, StartPoint.class);
         startActivity(intent);
     }
 

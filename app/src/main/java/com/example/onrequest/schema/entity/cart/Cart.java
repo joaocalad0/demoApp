@@ -9,8 +9,10 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity(
@@ -34,6 +36,14 @@ public class Cart implements Parcelable {
 
     @ColumnInfo(name = "cartState")
     private CartState cartState;
+
+    @Ignore
+    private List<MenuItem> menuItems;
+        public List<MenuItem> getMenuItems(){return  menuItems;}
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
 
     public Cart(long cartId, Long menuTableId, CartState cartState) {
         this.cartId = cartId;

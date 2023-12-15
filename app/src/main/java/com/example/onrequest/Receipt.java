@@ -12,6 +12,10 @@ public class Receipt {
     private String itemName;
     private double totalPrice;
 
+    public Receipt(){
+
+    }
+
     public Receipt(long receiptId, String itemName, double totalPrice) {
         this.receiptId = receiptId;
         this.itemName = itemName;

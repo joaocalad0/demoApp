@@ -136,7 +136,7 @@ public class TablesActivity extends AppCompatActivity {
                 // Inicializar menuTable
                 menuTable = menuTableList.get(0);
 
-                // Verificar se tablesAdapter já foi inicializado
+                // Verifica se tablesAdapter já foi inicializado
                 if (tablesAdapter != null) {
                     tablesAdapter.refreshList(menuTableList);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);

@@ -13,6 +13,7 @@ import com.example.onrequest.manager.CartManager;
 import com.example.onrequest.schema.dao.MenuItemDao;
 import com.example.onrequest.schema.dao.MenuTableDao;
 import com.example.onrequest.schema.db.AppDatabase;
+import com.example.onrequest.schema.entity.cart.Cart;
 import com.example.onrequest.schema.entity.cart.CartWithMenuItems;
 import com.example.onrequest.schema.entity.item.MenuItem;
 import com.example.onrequest.schema.entity.table.MenuTable;
@@ -35,6 +36,8 @@ public class CartActivity extends AppCompatActivity {
     private TablesAdapter tablesAdapter;
     private MenuTableDao tableDao;
 
+    private ReceiptDao receiptDao;
+
     public static void startCartActivity(Context context, List<CartWithMenuItems> cartWithMenuItems) {
         Intent intent = new Intent(context, CartActivity.class);
         intent.putParcelableArrayListExtra(MENU_ITEM_CART, new ArrayList<>(cartWithMenuItems));
@@ -47,6 +50,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         menuItemDao = AppDatabase.getInstance(this).getMenuItemDao();
         tableDao = AppDatabase.getInstance(this).getMenuTableDao();
+        receiptDao = AppDatabase.getInstance(this).getReceiptDao();
         this.tablesAdapter = new TablesAdapter(this);
 
 
@@ -77,12 +81,35 @@ public class CartActivity extends AppCompatActivity {
             Button checkout = findViewById(R.id.buttonCheckOut);
             checkout.setOnClickListener(view -> {
                 if (!menuItemCounter.cartWithMenuItems.isEmpty()) {
+                    AppDatabase db = AppDatabase.getInstance(this);
+                    ReceiptDao receiptDao = db.getReceiptDao();
+                    Cart cart = menuItemCounter.cartWithMenuItems.get(0).cart;
+
+                    //Tentativa de criar um "recibo" quando o utilizador efetua o pagamento
+                    insertReceipts(cart, discountedCartTotal);
+
                     cartManager.payCart(menuItemCounter.cartWithMenuItems.get(0).cart);
+
                 }
                 onBackPressed();
             });
         } else {
             finish();
+        }
+    }
+
+    private void insertReceipts(Cart cart, double discountedCartTotal) {
+        List<MenuItem> menuItems = cart.getMenuItems();
+        if (menuItems != null) {
+            for (MenuItem menuItem : menuItems) {
+                String itemName = menuItem.getMenuItemName();
+                double totalPrice = discountedCartTotal;
+
+                Receipt receipt = new Receipt();
+                receipt.setItemName(itemName);
+                receipt.setTotalPrice((int) totalPrice);
+                receiptDao.insertReceipt(receipt);
+            }
         }
     }
 
