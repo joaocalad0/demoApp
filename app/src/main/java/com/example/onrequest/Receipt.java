@@ -1,22 +1,29 @@
 package com.example.onrequest;
 
-public class Receipt {
-    private long orderId;
-    private String itemName;
-    private int totalPrice;
 
-    public Receipt(long orderId, String itemName, int totalPrice) {
-        this.orderId = orderId;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
+public class Receipt {
+
+    @PrimaryKey(autoGenerate = true)
+    private long receiptId;
+    private String itemName;
+    private double totalPrice;
+
+    public Receipt(long receiptId, String itemName, double totalPrice) {
+        this.receiptId = receiptId;
         this.itemName = itemName;
         this.totalPrice = totalPrice;
     }
 
     public long getOrderId() {
-        return orderId;
+        return receiptId;
     }
 
     public void setOrderId(long orderId) {
-        this.orderId = orderId;
+        this.receiptId = orderId;
     }
 
     public String getItemName() {
@@ -27,7 +34,7 @@ public class Receipt {
         this.itemName = itemName;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 

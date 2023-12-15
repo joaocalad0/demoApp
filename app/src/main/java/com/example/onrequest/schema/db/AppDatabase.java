@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.onrequest.ReceiptDao;
 import com.example.onrequest.User;
 import com.example.onrequest.UserDao;
 import com.example.onrequest.schema.converters.Converters;
@@ -46,6 +47,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserProfileDao getUserProfileDao();
 
     public abstract UserDao getUserDao();
+
+    public abstract ReceiptDao getReceiptDao();
 
     private static AppDatabase INSTANCE;
 
