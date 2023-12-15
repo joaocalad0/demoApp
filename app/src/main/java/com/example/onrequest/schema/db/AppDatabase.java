@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.onrequest.Receipt;
 import com.example.onrequest.ReceiptDao;
 import com.example.onrequest.User;
 import com.example.onrequest.UserDao;
@@ -31,6 +32,7 @@ import com.example.onrequest.schema.entity.table.MenuTable;
                 MenuTable.class,
                 UserProfile.class,
                 User.class,
+                Receipt.class,
 
         },
         version = 1

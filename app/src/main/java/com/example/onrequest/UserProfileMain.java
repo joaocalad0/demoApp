@@ -54,7 +54,8 @@ public class UserProfileMain extends AppCompatActivity {
         buttonLocalization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openMap();
+
+                openReceipt();
             }
         });
 
@@ -82,8 +83,8 @@ public class UserProfileMain extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openMap(){
-        Intent intent = new Intent(this, MapActivity.class);
+    public void openReceipt(){
+        Intent intent = new Intent(this, ReceiptActivity.class);
         startActivity(intent);
     }
 

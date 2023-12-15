@@ -18,12 +18,12 @@ public class Receipt {
         this.totalPrice = totalPrice;
     }
 
-    public long getOrderId() {
+    public long getReceiptId() {
         return receiptId;
     }
 
-    public void setOrderId(long orderId) {
-        this.receiptId = orderId;
+    public void setReceiptId(long receiptId) {
+        this.receiptId = receiptId;
     }
 
     public String getItemName() {
