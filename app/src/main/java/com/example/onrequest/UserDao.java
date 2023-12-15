@@ -4,11 +4,13 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.List;
+
 @Dao
 public interface UserDao {
-    @Insert
-    long registerUser(User user);
+    @Query("SELECT * FROM user")
+    public List<User> getAllUsers();
 
-    @Query("SELECT * FROM User WHERE username = :username AND password = :password")
-    User loginUser(String username, String password);
+    @Insert
+    void insertUser(User user);
 }

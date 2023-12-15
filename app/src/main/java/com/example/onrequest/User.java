@@ -15,8 +15,11 @@ public class User {
     @ColumnInfo(name = "password")
     private String password;
 
-    public User(long userId, String userName, String password) {
-        this.userId = userId;
+    public User(){
+
+    }
+
+    public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
